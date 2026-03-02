@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Weekly Progress — Source Constructor</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background-color: #F1F5F9;
+      color: #1E293B;
+      padding: 40px 16px;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #FFFFFF;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .header {
+      background: #0F172A;
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .week-badge {
+      background: #2563EB;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .hero-bar {
+      background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+      padding: 28px 48px;
+    }
+    .hero-bar h2 {
+      color: white;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .hero-bar p {
+      color: rgba(255,255,255,0.8);
+      font-size: 14px;
+    }
+    .body { padding: 32px 48px; }
+    .stats-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .stat-box {
+      flex: 1;
+      text-align: center;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 10px;
+      padding: 16px 8px;
+    }
+    .stat-num {
+      font-size: 28px;
+      font-weight: 700;
+      color: #2563EB;
+      display: block;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #64748B;
+      margin-top: 4px;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #F1F5F9;
+    }
+    .completed-tasks { margin-bottom: 28px; }
+    .task-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px solid #F8FAFC;
+      font-size: 14px;
+      color: #334155;
+    }
+    .check { color: #10B981; font-size: 16px; flex-shrink: 0; }
+    .insight-block {
+      background: #EEF2FF;
+      border-left: 3px solid #2563EB;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 18px;
+      margin-bottom: 28px;
+    }
+    .insight-block p {
+      font-size: 14px;
+      color: #1E3A8A;
+      line-height: 1.6;
+      font-style: italic;
+    }
+    .insight-block .source {
+      font-size: 12px;
+      color: #64748B;
+      margin-top: 6px;
+      font-style: normal;
+    }
+    .progress-section { margin-bottom: 28px; }
+    .progress-bar-wrap { margin-bottom: 6px; }
+    .progress-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .bar-track {
+      height: 10px;
+      background: #E2E8F0;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2563EB, #7C3AED);
+      border-radius: 5px;
+    }
+    .bar-change {
+      font-size: 11px;
+      color: #10B981;
+      margin-top: 3px;
+    }
+    .cta-section {
+      background: #F8FAFC;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .cta-section p {
+      font-size: 14px;
+      color: #334155;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .cta-button {
+      display: inline-block;
+      background: #2563EB;
+      color: white;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .streak-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 28px;
+    }
+    .streak-icon { font-size: 24px; }
+    .streak-text h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .streak-text p { font-size: 12px; color: #92400E; }
+    .sign-off {
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    .footer {
+      background: #F8FAFC;
+      border-top: 1px solid #E2E8F0;
+      padding: 20px 48px;
+      text-align: center;
+    }
+    .footer p {
+      font-size: 12px;
+      color: #94A3B8;
+      line-height: 1.6;
+    }
+    .footer a { color: #64748B; text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<div class="email-container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">● Source Constructor</div>
+    <div class="week-badge">Week {{week_number}}</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero-bar">
+    <h2>{{first_name}}'s Week in Review</h2>
+    <p>{{week_start_date}} — {{week_end_date}} · Project: {{project_name}}</p>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <span class="stat-num">{{tasks_done}}</span>
+        <div class="stat-label">Tasks done</div>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">{{checkins_done}}</span>
+        <div class="stat-label">Check-ins</div>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">{{streak_days}}🔥</span>
+        <div class="stat-label">Day streak</div>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">{{project_pct}}%</span>
+        <div class="stat-label">Progress</div>
+      </div>
+    </div>
+
+    <!-- STREAK CALLOUT (conditional: show if streak > 3) -->
+    <div class="streak-section">
+      <div class="streak-icon">🔥</div>
+      <div class="streak-text">
+        <h4>{{streak_days}}-day streak — keep it going!</h4>
+        <p>You've checked in every day this week. Consistency is how projects get finished.</p>
+      </div>
+    </div>
+
+    <!-- COMPLETED TASKS -->
+    <div class="completed-tasks">
+      <div class="section-title">✓ What you accomplished this week</div>
+      <!-- Dynamically generated from user task completions -->
+      <div class="task-item"><span class="check">✓</span> {{task_1}}</div>
+      <div class="task-item"><span class="check">✓</span> {{task_2}}</div>
+      <div class="task-item"><span class="check">✓</span> {{task_3}}</div>
+      <!-- If fewer tasks, template collapses remaining -->
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress-section">
+      <div class="section-title">📈 Project progress</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-label-row">
+          <span>{{current_phase}}</span>
+          <span style="font-weight:600;color:#2563EB">{{project_pct}}%</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:{{project_pct}}%"></div>
+        </div>
+        <div class="bar-change">▲ +{{progress_delta}}% vs last week</div>
+      </div>
+    </div>
+
+    <!-- AI INSIGHT OF THE WEEK -->
+    <div class="section-title">💡 Your insight this week</div>
+    <div class="insight-block">
+      <p>{{weekly_insight}}</p>
+      <div class="source">Extracted from your check-ins · Week {{week_number}}</div>
+    </div>
+
+    <!-- NEXT WEEK CTA -->
+    <div class="cta-section">
+      <p><strong>Next week's focus:</strong> {{next_week_task}}<br>
+      Your AI companion will remind you first thing Monday morning.</p>
+      <a href="https://app.sourceconstructor.com/project" class="cta-button">View Your Project →</a>
+    </div>
+
+    <!-- SIGN OFF -->
+    <p class="sign-off">
+      {{first_name}}, another week of real progress. Projects aren't built in breakthroughs — they're built in weeks exactly like this one.<br><br>
+      See you Monday,<br>
+      <strong>Your SOC Companion</strong>
+    </p>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>Source Constructor · <a href="#">Manage preferences</a> · <a href="#">Unsubscribe</a></p>
+    <p>You're receiving this because you have an active SOC subscription.</p>
+    <p>© 2026 Source Constructor. All rights reserved.</p>
+  </div>
+
+</div>
+
+</body>
+</html>

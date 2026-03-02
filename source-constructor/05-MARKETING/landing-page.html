@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Source Constructor — Know what to build. Build what matters.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cobalt: #2563EB;
+      --cobalt-dark: #1D4ED8;
+      --violet: #7C3AED;
+      --navy: #0F172A;
+      --neutral-50: #F8FAFC;
+      --neutral-100: #F1F5F9;
+      --neutral-200: #E2E8F0;
+      --neutral-500: #64748B;
+      --neutral-700: #334155;
+      --neutral-900: #0F172A;
+      --white: #FFFFFF;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--navy);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--neutral-200);
+      padding: 0 48px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      text-decoration: none;
+    }
+    .logo-dot {
+      width: 10px; height: 10px;
+      background: var(--cobalt);
+      border-radius: 50%;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--neutral-500);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--cobalt); }
+    .nav-ctas { display: flex; gap: 12px; align-items: center; }
+    .btn-ghost {
+      color: var(--neutral-700);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .btn-ghost:hover { background: var(--neutral-100); }
+    .btn-primary {
+      background: var(--cobalt);
+      color: white;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--cobalt-dark); transform: translateY(-1px); }
+    .btn-gradient {
+      background: linear-gradient(135deg, var(--cobalt), var(--violet));
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 16px 36px;
+      border-radius: 10px;
+      font-size: 17px;
+      display: inline-block;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-gradient:hover { opacity: 0.92; transform: translateY(-2px); }
+
+    /* HERO */
+    .hero {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #EEF2FF 0%, #FFFFFF 60%);
+    }
+    .hero-inner { max-width: 760px; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #EEF2FF;
+      color: var(--cobalt);
+      border: 1px solid #BFDBFE;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--navy);
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--cobalt), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 20px;
+      color: var(--neutral-500);
+      max-width: 540px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--neutral-700);
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 14px 28px;
+      border-radius: 10px;
+      border: 2px solid var(--neutral-200);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--cobalt); color: var(--cobalt); }
+    .hero-fine {
+      font-size: 13px;
+      color: var(--neutral-500);
+    }
+
+    /* SOCIAL PROOF */
+    .social-proof {
+      border-top: 1px solid var(--neutral-200);
+      border-bottom: 1px solid var(--neutral-200);
+      padding: 20px 24px;
+      text-align: center;
+      background: var(--neutral-50);
+    }
+    .social-proof p {
+      font-size: 13px;
+      color: var(--neutral-500);
+      margin-bottom: 12px;
+    }
+    .proof-items {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .proof-item {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--neutral-700);
+    }
+    .proof-item span { color: var(--neutral-500); font-weight: 400; }
+
+    /* SECTIONS */
+    section { padding: 96px 24px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-tag {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--cobalt);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 18px;
+      color: var(--neutral-500);
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    /* HOW IT WORKS */
+    .how-it-works { background: var(--neutral-50); }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      margin-top: 56px;
+    }
+    .step-card {
+      background: white;
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .step-num {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--cobalt), var(--violet));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .step-card h3 {
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .step-card p {
+      font-size: 15px;
+      color: var(--neutral-500);
+      line-height: 1.6;
+    }
+
+    /* CHAT DEMO */
+    .chat-demo-section { background: white; }
+    .chat-demo-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      margin-top: 56px;
+    }
+    .chat-demo-copy p {
+      font-size: 16px;
+      color: var(--neutral-700);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .chat-window {
+      background: var(--neutral-50);
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+    .chat-header {
+      background: var(--navy);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .chat-header-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+    }
+    .chat-header span {
+      color: rgba(255,255,255,0.8);
+      font-size: 13px;
+    }
+    .chat-messages { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+    .msg { max-width: 80%; }
+    .msg-ai {
+      background: white;
+      border-radius: 4px 16px 16px 16px;
+      padding: 12px 16px;
+      font-size: 14px;
+      line-height: 1.5;
+      border: 1px solid var(--neutral-200);
+    }
+    .msg-user {
+      align-self: flex-end;
+      background: var(--cobalt);
+      color: white;
+      border-radius: 16px 4px 16px 16px;
+      padding: 12px 16px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .msg-meta { font-size: 11px; color: var(--neutral-500); margin-top: 4px; }
+
+    /* TESTIMONIALS */
+    .testimonials { background: var(--neutral-50); }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 56px;
+    }
+    .testimonial-card {
+      background: white;
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+      padding: 28px;
+    }
+    .stars { color: #F59E0B; font-size: 18px; margin-bottom: 16px; }
+    .testimonial-text {
+      font-size: 15px;
+      color: var(--neutral-700);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .author-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cobalt), var(--violet));
+      display: flex; align-items: center; justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .author-name { font-size: 14px; font-weight: 600; }
+    .author-role { font-size: 13px; color: var(--neutral-500); }
+
+    /* PRICING */
+    .pricing { background: white; }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-top: 56px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .pricing-card {
+      border: 1px solid var(--neutral-200);
+      border-radius: 16px;
+      padding: 32px;
+      position: relative;
+    }
+    .pricing-card.featured {
+      border: 2px solid var(--cobalt);
+      box-shadow: 0 8px 32px rgba(37, 99, 235, 0.12);
+    }
+    .popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--cobalt);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 20px;
+    }
+    .plan-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .plan-price {
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 12px 0;
+    }
+    .plan-price span { font-size: 16px; font-weight: 400; color: var(--neutral-500); }
+    .plan-desc { font-size: 14px; color: var(--neutral-500); margin-bottom: 24px; }
+    .plan-features { list-style: none; margin-bottom: 28px; }
+    .plan-features li {
+      font-size: 14px;
+      padding: 6px 0;
+      display: flex;
+      gap: 8px;
+      color: var(--neutral-700);
+    }
+    .plan-features li::before { content: '✓'; color: #10B981; font-weight: 700; flex-shrink: 0; }
+    .plan-btn {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      transition: all 0.2s;
+    }
+    .plan-btn-primary { background: var(--cobalt); color: white; }
+    .plan-btn-primary:hover { background: var(--cobalt-dark); }
+    .plan-btn-outline {
+      border: 2px solid var(--neutral-200);
+      color: var(--neutral-700);
+      background: transparent;
+    }
+    .plan-btn-outline:hover { border-color: var(--cobalt); color: var(--cobalt); }
+
+    /* FINAL CTA */
+    .final-cta {
+      background: linear-gradient(135deg, var(--navy) 0%, #1E3A8A 100%);
+      text-align: center;
+      padding: 96px 24px;
+    }
+    .final-cta h2 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 700;
+      color: white;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .final-cta p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.7);
+      max-width: 480px;
+      margin: 0 auto 40px;
+    }
+    .final-cta .fine { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 14px; }
+
+    /* FOOTER */
+    footer {
+      background: var(--navy);
+      padding: 48px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      max-width: 1100px;
+      margin: 0 auto 40px;
+    }
+    .footer-brand p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 12px;
+      max-width: 240px;
+    }
+    .footer-col h4 { color: white; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .footer-col ul a:hover { color: white; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 24px;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,0.3);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 16px; }
+      .nav-links { display: none; }
+      .chat-demo-layout { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-dot"></div>
+    Source Constructor
+  </a>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#demo">See it in action</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <div class="nav-ctas">
+    <a href="#" class="btn-ghost">Log in</a>
+    <a href="#" class="btn-primary">Start Free →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span>★</span> Used by 1,000+ people finding their direction
+    </div>
+    <h1>Discover what you <span>truly</span> want to build.</h1>
+    <p class="hero-sub">
+      AI-powered conversations that uncover your real desires — then transform them into a structured project with a 90-day plan.
+    </p>
+    <div class="hero-ctas">
+      <a href="#" class="btn-gradient">Start Your Discovery Session →</a>
+      <a href="#demo" class="btn-outline">▷ See how it works</a>
+    </div>
+    <p class="hero-fine">Free 7-day trial · No credit card required</p>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<div class="social-proof">
+  <p>People using Source Constructor to find clarity and launch their projects</p>
+  <div class="proof-items">
+    <div class="proof-item">1,000+ <span>users</span></div>
+    <div class="proof-item">4.8/5 <span>avg. rating</span></div>
+    <div class="proof-item">89% <span>found clarity in session 1</span></div>
+    <div class="proof-item">68% <span>D30 retention</span></div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works" id="how">
+  <div class="container">
+    <p class="section-tag">How it works</p>
+    <h2 class="section-title">From "I don't know what to build"<br>to "Here's my plan" — in one session.</h2>
+    <p class="section-sub">No templates. No frameworks to fill out. Just a deep conversation that draws out what's already inside you.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Discovery Session</h3>
+        <p>A 25–35 minute conversation with your AI companion. Deep, honest questions that cut through the noise and surface what you actually care about.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Your Project Emerges</h3>
+        <p>The AI synthesizes your session into a personalized project: a name, a purpose, phases, milestones, and a week-by-week task plan tailored to your life.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Daily Momentum</h3>
+        <p>Your AI companion checks in daily — 3 minutes. It remembers everything, notices patterns, and keeps you consistently moving forward.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAT DEMO -->
+<section class="chat-demo-section" id="demo">
+  <div class="container">
+    <div class="chat-demo-layout">
+      <div class="chat-demo-copy">
+        <p class="section-tag">See it in action</p>
+        <h2 class="section-title">This is what a Discovery Session feels like.</h2>
+        <p>Not a personality quiz. Not a goal-setting worksheet. A real conversation that meets you where you are and takes you somewhere new.</p>
+        <p>Most users describe it as "better than therapy" for clarity on what to work on.</p>
+        <a href="#" class="btn-gradient" style="margin-top:16px;font-size:15px;padding:12px 28px">Try your first session free →</a>
+      </div>
+      <div class="chat-window">
+        <div class="chat-header">
+          <div class="chat-header-dot"></div>
+          <div class="chat-header-dot"></div>
+          <div class="chat-header-dot"></div>
+          <span style="margin-left:8px">Discovery Session #1</span>
+        </div>
+        <div class="chat-messages">
+          <div class="msg">
+            <div class="msg-ai">Welcome. I'm your Source Constructor companion. Before we dive in — what's something you've been thinking about building, but keep putting off?</div>
+          </div>
+          <div class="msg msg-user">
+            <div class="msg-user">I keep thinking about an online course, but I'm not sure it's really what I want to do...</div>
+          </div>
+          <div class="msg">
+            <div class="msg-ai">Interesting. When you imagine someone finishing your course and succeeding — what does that feel like to you?</div>
+          </div>
+          <div class="msg msg-user">
+            <div class="msg-user">Honestly, amazing. Like I actually helped someone change their life.</div>
+          </div>
+          <div class="msg">
+            <div class="msg-ai">That matters to you — helping someone change, not just learn a skill. Let's go deeper: what change would you most want someone to make because of you?</div>
+          </div>
+          <div class="msg msg-user">
+            <div class="msg-user">I think... crossing the gap from good developer to senior. That's something I've navigated and I wish someone had helped me faster.</div>
+          </div>
+          <div class="msg">
+            <div class="msg-ai">You just named it. That specific gap — you've lived it, and you want to close it for others. That's not just a course idea. That's a mission. Tell me more about what that gap actually looks like...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="container" style="text-align:center">
+    <p class="section-tag">What people say</p>
+    <h2 class="section-title">Real people. Real clarity.</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"I spent 2 years not knowing what to build. One session with SOC and I knew. I'm now 6 weeks into my project and haven't looked back."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">AM</div>
+          <div>
+            <div class="author-name">Alex M.</div>
+            <div class="author-role">Product Manager, 31</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"Better than the 6 coaching sessions I paid $900 for. It remembered everything from our first conversation and built on it each time."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">MK</div>
+          <div>
+            <div class="author-name">Maria K.</div>
+            <div class="author-role">Career Transitioner, 34</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"I'm a serial abandoner of side projects. For the first time I've stayed with one idea for 8 weeks. The daily check-ins are the difference."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">DV</div>
+          <div>
+            <div class="author-name">Dmitri V.</div>
+            <div class="author-role">Software Engineer, 27</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container" style="text-align:center">
+    <p class="section-tag">Pricing</p>
+    <h2 class="section-title">Simple, honest pricing.</h2>
+    <p class="section-sub" style="margin:0 auto 0">No tricks. Start free and upgrade when you're ready.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">$0</div>
+        <div class="plan-desc">Try it, no commitment</div>
+        <ul class="plan-features">
+          <li>1 Discovery Session</li>
+          <li>1 Generated project</li>
+          <li>7-day task plan</li>
+          <li>Basic daily check-in</li>
+        </ul>
+        <a href="#" class="plan-btn plan-btn-outline">Get started free</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="popular-badge">Most Popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$19<span>/month</span></div>
+        <div class="plan-desc">For serious builders</div>
+        <ul class="plan-features">
+          <li>Unlimited Discovery Sessions</li>
+          <li>Full 90-day project roadmap</li>
+          <li>Daily AI companion</li>
+          <li>Pattern detection & insights</li>
+          <li>Session history & insights library</li>
+          <li>Weekly progress email</li>
+        </ul>
+        <a href="#" class="plan-btn plan-btn-primary">Start 7-day free trial</a>
+      </div>
+      <div class="pricing-card">
+        <div class="plan-name">Annual</div>
+        <div class="plan-price">$149<span>/year</span></div>
+        <div class="plan-desc">Save 35% — best value</div>
+        <ul class="plan-features">
+          <li>Everything in Pro</li>
+          <li>Save $79 vs monthly</li>
+          <li>Priority support</li>
+          <li>Early access to new features</li>
+        </ul>
+        <a href="#" class="plan-btn plan-btn-outline">Get annual plan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2>Ready to find out what you're actually building?</h2>
+  <p>Your first Discovery Session is free. No credit card required. Takes 25–35 minutes.</p>
+  <a href="#" class="btn-gradient">Start Your First Session →</a>
+  <p class="fine">Join 1,000+ people who found clarity with Source Constructor</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo" style="color:white;text-decoration:none;">
+        <div class="logo-dot"></div>
+        Source Constructor
+      </a>
+      <p>Know what to build. Build what matters.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#">Features</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Changelog</a></li>
+        <li><a href="#">Roadmap</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">GDPR</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Source Constructor. All rights reserved.
+  </div>
+</footer>
+
+</body>
+</html>

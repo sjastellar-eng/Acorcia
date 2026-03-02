@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOC Wireframe — Project Canvas</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: monospace; background: #F8FAFC; color: #1E293B; font-size: 14px; }
+    .wf-label {
+      position: fixed; top: 12px; right: 12px;
+      background: #1E293B; color: #F8FAFC;
+      padding: 8px 14px; border-radius: 6px; font-size: 12px; z-index: 999;
+    }
+    .annotation { color: #94A3B8; font-size: 11px; font-style: italic; margin: 4px 0; padding-left: 8px; border-left: 2px solid #CBD5E1; }
+    .box { background: #E2E8F0; border: 1px solid #CBD5E1; border-radius: 4px; padding: 6px 12px; display: inline-block; margin: 3px; font-size: 12px; }
+    .box-fill { background: #2563EB; color: white; border: none; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 8px 0; }
+    .shell { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+    .sidebar { border-right: 2px dashed #CBD5E1; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+    .main { padding: 16px; }
+    .section { border: 2px dashed #CBD5E1; margin-bottom: 16px; border-radius: 6px; padding: 14px; }
+    .section-name { font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; color: #94A3B8; margin-bottom: 10px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .card { background: white; border: 1px solid #CBD5E1; border-radius: 8px; padding: 14px; }
+    .task { display: flex; gap: 8px; align-items: flex-start; padding: 8px 0; border-bottom: 1px dashed #E2E8F0; }
+    .task:last-child { border-bottom: none; }
+    .checkbox { width: 16px; height: 16px; border: 2px solid #CBD5E1; border-radius: 4px; flex-shrink: 0; margin-top: 2px; }
+    .checkbox.done { background: #10B981; border-color: #10B981; }
+    .progress-bar { height: 8px; background: #E2E8F0; border-radius: 4px; overflow: hidden; margin: 8px 0; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #2563EB, #7C3AED); border-radius: 4px; }
+    .insight { background: #EEF2FF; border-radius: 8px; padding: 10px 14px; font-size: 12px; margin: 6px 0; border-left: 3px solid #2563EB; }
+    .milestone { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px dashed #E2E8F0; }
+    .milestone:last-child { border-bottom: none; }
+    .milestone-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  </style>
+</head>
+<body>
+<div class="wf-label">Wireframe: Project Canvas v1.0</div>
+
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="section-name">Sidebar</div>
+    <div class="box" style="background:#1E293B;color:white;text-align:center">● SOC</div>
+
+    <div style="margin-top:8px;font-size:11px;color:#94A3B8;text-transform:uppercase;letter-spacing:0.1em">Navigation</div>
+    <div class="box" style="width:100%">🧭 New Session</div>
+    <div class="box" style="width:100%;background:#EEF2FF;color:#2563EB">📁 My Project</div>
+    <div class="box" style="width:100%">📊 Progress</div>
+    <div class="box" style="width:100%">💡 Insights</div>
+
+    <div style="flex:1"></div>
+    <div class="box" style="width:100%;font-size:11px">[ AJ ] Alex Johnson</div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+
+    <!-- PROJECT HEADER -->
+    <div class="section">
+      <div class="section-name">Project Header</div>
+      <div class="row">
+        <div>
+          <div style="font-size:20px;font-weight:bold">DevPath Academy</div>
+          <div style="font-size:12px;color:#64748B">A structured learning platform for developers transitioning into senior roles</div>
+        </div>
+        <div style="flex:1"></div>
+        <div class="box">✏️ Edit</div>
+        <div class="box box-fill">+ Add Task</div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <div class="box" style="background:#ECFDF5;color:#065F46">● Active</div>
+        <div class="box">📅 Day 23</div>
+        <div class="box">Phase: Building</div>
+        <div class="box">🔥 Streak: 8 days</div>
+      </div>
+      <div style="margin-top:12px">
+        <div style="font-size:12px;color:#64748B;margin-bottom:4px">Overall Progress</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:34%"></div></div>
+        <div style="font-size:11px;color:#94A3B8">34% complete · Est. completion: 67 days</div>
+      </div>
+      <div class="annotation">Project header: name, description (editable), status badge, day counter, streak, progress bar</div>
+    </div>
+
+    <!-- TWO COLUMN LAYOUT -->
+    <div class="grid-2">
+
+      <!-- LEFT: MILESTONES + TASKS -->
+      <div>
+        <div class="section">
+          <div class="section-name">Project Phases & Milestones</div>
+          <div class="milestone">
+            <div class="milestone-dot" style="background:#10B981"></div>
+            <div>
+              <div style="font-weight:bold;font-size:13px">Phase 1: Research & Validation</div>
+              <div style="font-size:11px;color:#10B981">✓ Completed — Day 1–7</div>
+              <div style="font-size:11px;color:#64748B;margin-top:4px">Interviewed 8 developers, defined curriculum structure</div>
+            </div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-dot" style="background:#2563EB"></div>
+            <div>
+              <div style="font-weight:bold;font-size:13px">Phase 2: Content Creation</div>
+              <div style="font-size:11px;color:#2563EB">→ In Progress — Day 8–35</div>
+              <div class="progress-bar" style="margin-top:6px"><div class="progress-fill" style="width:55%"></div></div>
+              <div style="font-size:11px;color:#94A3B8">55% · 3 of 6 modules outlined</div>
+            </div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-dot" style="background:#CBD5E1"></div>
+            <div>
+              <div style="font-weight:bold;font-size:13px;color:#94A3B8">Phase 3: Platform Setup</div>
+              <div style="font-size:11px;color:#94A3B8">○ Not started — Day 36–50</div>
+            </div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-dot" style="background:#CBD5E1"></div>
+            <div>
+              <div style="font-weight:bold;font-size:13px;color:#94A3B8">Phase 4: Beta Launch</div>
+              <div style="font-size:11px;color:#94A3B8">○ Not started — Day 51–90</div>
+            </div>
+          </div>
+          <div class="annotation">Phases expand/collapse. Active phase is always expanded by default.</div>
+        </div>
+
+        <div class="section">
+          <div class="section-name">Current Tasks — Phase 2</div>
+          <div class="task">
+            <div class="checkbox done"></div>
+            <div>
+              <div style="font-size:13px;text-decoration:line-through;color:#94A3B8">Write outline for Module 1 (Systems Thinking)</div>
+              <div style="font-size:11px;color:#10B981">Done · 2 days ago</div>
+            </div>
+          </div>
+          <div class="task">
+            <div class="checkbox done"></div>
+            <div>
+              <div style="font-size:13px;text-decoration:line-through;color:#94A3B8">Record intro video (5 min)</div>
+              <div style="font-size:11px;color:#10B981">Done · Yesterday</div>
+            </div>
+          </div>
+          <div class="task">
+            <div class="checkbox" style="background:#EEF2FF;border-color:#2563EB"></div>
+            <div>
+              <div style="font-size:13px;font-weight:bold">Write Module 2 outline (Architecture Patterns)</div>
+              <div style="font-size:11px;color:#F59E0B">Today's task</div>
+            </div>
+          </div>
+          <div class="task">
+            <div class="checkbox"></div>
+            <div>
+              <div style="font-size:13px">Set up Gumroad or Lemon Squeezy account</div>
+              <div style="font-size:11px;color:#64748B">Due: This week</div>
+            </div>
+          </div>
+          <div class="task">
+            <div class="checkbox"></div>
+            <div>
+              <div style="font-size:13px">Write first draft of sales page copy</div>
+              <div style="font-size:11px;color:#64748B">Due: This week</div>
+            </div>
+          </div>
+          <div class="row" style="margin-top:12px">
+            <div class="box" style="font-size:11px">+ Add task</div>
+            <div class="box" style="font-size:11px">Suggest tasks with AI</div>
+          </div>
+          <div class="annotation">Checked = done. Current task highlighted in blue. "Suggest tasks with AI" calls AI to recommend next actions based on project state.</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: INSIGHTS + CONTEXT -->
+      <div>
+        <div class="section">
+          <div class="section-name">Why This Project (from Discovery Session)</div>
+          <div class="insight">
+            "You care deeply about making complex things accessible — not just explaining them, but truly helping people cross the gap."
+          </div>
+          <div class="insight">
+            "Your ideal work involves creating something that helps multiple people simultaneously, not 1:1 work."
+          </div>
+          <div class="insight">
+            "You mentioned that you feel most alive when you see someone understand something for the first time."
+          </div>
+          <div class="annotation">These insights are extracted from Discovery Sessions. They serve as a "north star" reminder of why the project was chosen. Cannot be edited by user.</div>
+        </div>
+
+        <div class="section">
+          <div class="section-name">Project Context</div>
+          <div class="card" style="margin-bottom:12px">
+            <div style="font-size:11px;color:#94A3B8;margin-bottom:4px">TARGET USER</div>
+            <div style="font-size:13px">Mid-level developers (3–5 years exp) who want to grow into senior roles but don't know what "senior" actually means.</div>
+          </div>
+          <div class="card" style="margin-bottom:12px">
+            <div style="font-size:11px;color:#94A3B8;margin-bottom:4px">MONETIZATION</div>
+            <div style="font-size:13px">Paid course ($149) + optional 1:1 sessions ($200/hr). Goal: $2k MRR in 90 days.</div>
+          </div>
+          <div class="card">
+            <div style="font-size:11px;color:#94A3B8;margin-bottom:4px">CONSTRAINTS</div>
+            <div style="font-size:13px">10–12 hours/week available. Must not require quitting day job. Can use evenings + weekends.</div>
+          </div>
+          <div class="annotation">Context panel populated from Discovery Session outputs. Serves as a quick reference for decision-making.</div>
+        </div>
+
+        <div class="section">
+          <div class="section-name">AI Companion — Today</div>
+          <div style="background:#EEF2FF;border-radius:8px;padding:14px;margin-bottom:12px">
+            <div style="font-size:12px;margin-bottom:8px">Good morning Alex. Yesterday you finished the intro video — nice work. Today's suggested task:</div>
+            <div style="font-weight:bold;font-size:13px;margin-bottom:12px">📝 Write Module 2 outline (Architecture Patterns)</div>
+            <div class="row" style="gap:6px">
+              <div class="box box-fill" style="font-size:11px">On it ✓</div>
+              <div class="box" style="font-size:11px">Skip today</div>
+              <div class="box" style="font-size:11px">I need help</div>
+            </div>
+          </div>
+          <div class="annotation">Daily companion card: personalized greeting, references yesterday's work, proposes one concrete task. Quick responses keep interaction low-friction.</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

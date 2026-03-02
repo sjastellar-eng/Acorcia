@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOC UI Component Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cobalt-50: #EFF6FF;
+      --cobalt-100: #DBEAFE;
+      --cobalt-500: #3B82F6;
+      --cobalt-600: #2563EB;
+      --cobalt-700: #1D4ED8;
+      --violet-500: #8B5CF6;
+      --violet-600: #7C3AED;
+      --neutral-0: #FFFFFF;
+      --neutral-50: #F8FAFC;
+      --neutral-100: #F1F5F9;
+      --neutral-200: #E2E8F0;
+      --neutral-300: #CBD5E1;
+      --neutral-400: #94A3B8;
+      --neutral-500: #64748B;
+      --neutral-700: #334155;
+      --neutral-800: #1E293B;
+      --neutral-900: #0F172A;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --error: #EF4444;
+      --info: #3B82F6;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+      --radius-full: 9999px;
+      --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+      --shadow-focus: 0 0 0 3px rgba(37,99,235,0.35);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--neutral-50);
+      color: var(--neutral-900);
+      line-height: 1.6;
+    }
+    .page-header {
+      background: var(--neutral-900);
+      color: white;
+      padding: 48px;
+      border-bottom: 4px solid var(--cobalt-600);
+    }
+    .page-header h1 { font-size: 36px; font-weight: 700; margin-bottom: 8px; }
+    .page-header p { color: var(--neutral-400); font-size: 16px; }
+    .version-badge {
+      display: inline-block;
+      background: var(--cobalt-600);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      margin-top: 12px;
+    }
+    .nav {
+      background: white;
+      border-bottom: 1px solid var(--neutral-200);
+      padding: 0 48px;
+      display: flex;
+      gap: 4px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav a {
+      color: var(--neutral-500);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 16px 12px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav a:hover { color: var(--cobalt-600); border-bottom-color: var(--cobalt-600); }
+    .container { max-width: 1200px; margin: 0 auto; padding: 48px; }
+    .section { margin-bottom: 80px; }
+    .section-header {
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--neutral-200);
+    }
+    .section-header h2 { font-size: 24px; font-weight: 700; color: var(--neutral-900); }
+    .section-header p { color: var(--neutral-500); margin-top: 4px; }
+    .component-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .component-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--neutral-400);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    .demo-card {
+      background: white;
+      border: 1px solid var(--neutral-200);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    /* ============ BUTTONS ============ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+    .btn-sm  { height: 32px; padding: 0 12px; font-size: 14px; border-radius: var(--radius-md); }
+    .btn-md  { height: 40px; padding: 0 16px; font-size: 16px; border-radius: var(--radius-md); }
+    .btn-lg  { height: 48px; padding: 0 24px; font-size: 16px; border-radius: var(--radius-lg); }
+    .btn-xl  { height: 56px; padding: 0 32px; font-size: 18px; border-radius: var(--radius-lg); }
+    .btn-primary { background: var(--cobalt-600); color: white; }
+    .btn-primary:hover { background: var(--cobalt-700); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .btn-primary:active { background: var(--cobalt-700); transform: translateY(0); box-shadow: none; }
+    .btn-secondary { background: var(--cobalt-50); color: var(--cobalt-600); }
+    .btn-secondary:hover { background: var(--cobalt-100); }
+    .btn-ghost { background: transparent; color: var(--neutral-700); }
+    .btn-ghost:hover { background: var(--neutral-100); }
+    .btn-danger { background: #FEF2F2; color: var(--error); }
+    .btn-danger:hover { background: #FEE2E2; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-gradient {
+      background: linear-gradient(135deg, var(--cobalt-600) 0%, var(--violet-600) 100%);
+      color: white;
+    }
+    .btn-gradient:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+    /* ============ INPUTS ============ */
+    .input-group { display: flex; flex-direction: column; gap: 6px; }
+    .input-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--neutral-700);
+    }
+    .input {
+      width: 100%;
+      height: 40px;
+      padding: 0 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      color: var(--neutral-900);
+      background: white;
+      border: 1px solid var(--neutral-300);
+      border-radius: var(--radius-md);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .input:focus { border-color: var(--cobalt-600); box-shadow: var(--shadow-focus); }
+    .input::placeholder { color: var(--neutral-400); }
+    .input.error { border-color: var(--error); }
+    .input.error:focus { box-shadow: 0 0 0 3px rgba(239,68,68,0.25); }
+    .input-helper { font-size: 13px; color: var(--neutral-500); }
+    .input-error-msg { font-size: 13px; color: var(--error); }
+    textarea.input { height: auto; padding: 12px; resize: vertical; min-height: 100px; }
+    .input-with-icon { position: relative; }
+    .input-with-icon .input { padding-left: 40px; }
+    .input-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--neutral-400);
+    }
+
+    /* ============ CARDS ============ */
+    .card {
+      background: white;
+      border-radius: var(--radius-xl);
+      padding: 24px;
+    }
+    .card-default { border: 1px solid var(--neutral-200); }
+    .card-elevated { box-shadow: var(--shadow-md); }
+    .card-interactive { border: 1px solid var(--neutral-200); cursor: pointer; transition: all 0.2s; }
+    .card-interactive:hover { border-color: var(--cobalt-600); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .card-highlight { border: 1px solid var(--neutral-200); border-left: 4px solid var(--cobalt-600); }
+    .card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .card p { font-size: 14px; color: var(--neutral-500); }
+
+    /* ============ BADGES ============ */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+    }
+    .badge-default { background: var(--neutral-100); color: var(--neutral-700); }
+    .badge-primary { background: var(--cobalt-50); color: var(--cobalt-700); }
+    .badge-success { background: #ECFDF5; color: #065F46; }
+    .badge-warning { background: #FFFBEB; color: #92400E; }
+    .badge-error   { background: #FEF2F2; color: #991B1B; }
+    .badge-dot::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* ============ AVATARS ============ */
+    .avatar {
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: white;
+      flex-shrink: 0;
+    }
+    .avatar-xs { width: 24px; height: 24px; font-size: 10px; }
+    .avatar-sm { width: 32px; height: 32px; font-size: 12px; }
+    .avatar-md { width: 40px; height: 40px; font-size: 14px; }
+    .avatar-lg { width: 48px; height: 48px; font-size: 16px; }
+    .avatar-xl { width: 64px; height: 64px; font-size: 20px; }
+    .avatar-cobalt { background: var(--cobalt-600); }
+    .avatar-violet { background: var(--violet-600); }
+    .avatar-success { background: var(--success); }
+    .avatar-group { display: flex; }
+    .avatar-group .avatar { border: 2px solid white; margin-right: -8px; }
+
+    /* ============ CHAT BUBBLES ============ */
+    .chat-container { display: flex; flex-direction: column; gap: 16px; max-width: 600px; }
+    .chat-msg { display: flex; gap: 10px; }
+    .chat-msg.user { flex-direction: row-reverse; }
+    .chat-bubble {
+      max-width: 75%;
+      padding: 12px 16px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .chat-bubble.ai {
+      background: var(--neutral-100);
+      color: var(--neutral-900);
+      border-radius: 18px 18px 18px 4px;
+    }
+    .chat-bubble.user {
+      background: var(--cobalt-600);
+      color: white;
+      border-radius: 18px 18px 4px 18px;
+    }
+    .chat-meta {
+      font-size: 11px;
+      color: var(--neutral-400);
+      margin-top: 4px;
+    }
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 14px 18px;
+      background: var(--neutral-100);
+      border-radius: 18px 18px 18px 4px;
+      width: fit-content;
+    }
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--neutral-400);
+      border-radius: 50%;
+      animation: typing 1.2s infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-6px); opacity: 1; }
+    }
+
+    /* ============ PROGRESS ============ */
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: var(--neutral-200);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      background: linear-gradient(90deg, var(--cobalt-600), var(--violet-500));
+      transition: width 0.6s ease;
+    }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .progress-label span { font-size: 14px; font-weight: 500; }
+
+    /* ============ ALERTS ============ */
+    .alert {
+      display: flex;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: var(--radius-lg);
+      font-size: 14px;
+    }
+    .alert-success { background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; }
+    .alert-warning { background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; }
+    .alert-error   { background: #FEF2F2; color: #991B1B; border: 1px solid #FECACA; }
+    .alert-info    { background: var(--cobalt-50); color: #1E40AF; border: 1px solid var(--cobalt-100); }
+    .alert-icon { font-size: 18px; flex-shrink: 0; }
+
+    /* ============ TOGGLE ============ */
+    .toggle { position: relative; display: inline-block; width: 48px; height: 26px; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute; inset: 0;
+      background: var(--neutral-300);
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      width: 20px; height: 20px;
+      left: 3px; bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+    .toggle input:checked + .toggle-slider { background: var(--cobalt-600); }
+    .toggle input:checked + .toggle-slider::before { transform: translateX(22px); }
+
+    /* ============ COLOR PALETTE ============ */
+    .color-grid { display: grid; grid-template-columns: repeat(auto-fill, 100px); gap: 12px; }
+    .color-swatch { text-align: center; }
+    .color-swatch-block {
+      width: 100px;
+      height: 64px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(0,0,0,0.1);
+      margin-bottom: 6px;
+    }
+    .color-swatch span { font-size: 11px; color: var(--neutral-600); }
+
+    /* ============ TYPOGRAPHY DEMO ============ */
+    .type-scale > * { margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>SOC UI Component Library</h1>
+  <p>Source Constructor Design System — Living Component Reference</p>
+  <div class="version-badge">v1.0 — March 2026</div>
+</div>
+
+<nav class="nav">
+  <a href="#colors">Colors</a>
+  <a href="#typography">Typography</a>
+  <a href="#buttons">Buttons</a>
+  <a href="#inputs">Inputs</a>
+  <a href="#cards">Cards</a>
+  <a href="#badges">Badges</a>
+  <a href="#avatars">Avatars</a>
+  <a href="#chat">Chat</a>
+  <a href="#progress">Progress</a>
+  <a href="#alerts">Alerts</a>
+</nav>
+
+<div class="container">
+
+  <!-- ============ COLORS ============ -->
+  <div class="section" id="colors">
+    <div class="section-header">
+      <h2>Color Palette</h2>
+      <p>Primary brand colors and semantic utility colors</p>
+    </div>
+    <div class="component-label">Brand Colors</div>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background:#EFF6FF"></div>
+        <span>Cobalt 50</span>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background:#BFDBFE"></div>
+        <span>Cobalt 200</span>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background:#3B82F6"></div>
+        <span>Cobalt 500</span>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background:#2563EB"></div>
+        <span>Cobalt 600 ★</span>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background:#1D4ED8"></div>
+        <span>Cobalt 700</span>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background:#1E3A8A"></div>
+        <span>Cobalt 900</span>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background:#7C3AED"></div>
+        <span>Violet 600</span>
+      </div>
+    </div>
+    <br>
+    <div class="component-label">Semantic Colors</div>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background:#10B981"></div>
+        <span>Success</span>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background:#F59E0B"></div>
+        <span>Warning</span>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background:#EF4444"></div>
+        <span>Error</span>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background:#0F172A"></div>
+        <span>Neutral 900</span>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background:#64748B"></div>
+        <span>Neutral 500</span>
+      </div>
+      <div class="color-swatch">
+        <div class="color-swatch-block" style="background:#F1F5F9"></div>
+        <span>Neutral 100</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TYPOGRAPHY ============ -->
+  <div class="section" id="typography">
+    <div class="section-header">
+      <h2>Typography</h2>
+      <p>Inter typeface — complete type scale</p>
+    </div>
+    <div class="demo-card type-scale">
+      <div style="font-size:48px;font-weight:700;line-height:1.1;color:var(--neutral-900)">Display — 48px Bold</div>
+      <div style="font-size:36px;font-weight:700;line-height:1.2;color:var(--neutral-900)">Heading 1 — 36px Bold</div>
+      <div style="font-size:28px;font-weight:600;line-height:1.3;color:var(--neutral-900)">Heading 2 — 28px Semibold</div>
+      <div style="font-size:22px;font-weight:600;line-height:1.4;color:var(--neutral-900)">Heading 3 — 22px Semibold</div>
+      <div style="font-size:18px;font-weight:600;line-height:1.4;color:var(--neutral-900)">Heading 4 — 18px Semibold</div>
+      <div style="font-size:18px;font-weight:400;line-height:1.7;color:var(--neutral-700)">Body Large — 18px Regular. Used for lead text and introductory paragraphs that need extra emphasis.</div>
+      <div style="font-size:16px;font-weight:400;line-height:1.6;color:var(--neutral-700)">Body — 16px Regular. Default body text for all content areas. Maintain a maximum line length of 65–75 characters for optimal readability.</div>
+      <div style="font-size:14px;font-weight:400;line-height:1.5;color:var(--neutral-500)">Body Small — 14px Regular. Used for captions, helper text, and secondary information.</div>
+      <div style="font-size:12px;font-weight:500;line-height:1.4;color:var(--neutral-400)">CAPTION — 12px Medium Uppercase. Used for metadata, timestamps, labels.</div>
+    </div>
+  </div>
+
+  <!-- ============ BUTTONS ============ -->
+  <div class="section" id="buttons">
+    <div class="section-header">
+      <h2>Buttons</h2>
+      <p>Variants, sizes, and states</p>
+    </div>
+    <div class="demo-card">
+      <div class="component-label">Variants</div>
+      <div class="component-row">
+        <button class="btn btn-primary btn-md">Primary</button>
+        <button class="btn btn-secondary btn-md">Secondary</button>
+        <button class="btn btn-ghost btn-md">Ghost</button>
+        <button class="btn btn-danger btn-md">Danger</button>
+        <button class="btn btn-gradient btn-md">Gradient</button>
+      </div>
+      <div class="component-label">Sizes</div>
+      <div class="component-row">
+        <button class="btn btn-primary btn-sm">Small</button>
+        <button class="btn btn-primary btn-md">Medium</button>
+        <button class="btn btn-primary btn-lg">Large</button>
+        <button class="btn btn-primary btn-xl">Extra Large</button>
+      </div>
+      <div class="component-label">States</div>
+      <div class="component-row">
+        <button class="btn btn-primary btn-md">Normal</button>
+        <button class="btn btn-primary btn-md" disabled>Disabled</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ INPUTS ============ -->
+  <div class="section" id="inputs">
+    <div class="section-header">
+      <h2>Inputs</h2>
+      <p>Text inputs, textareas, and form groups</p>
+    </div>
+    <div class="demo-card" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="input-group">
+        <label class="input-label">Your name</label>
+        <input class="input" type="text" placeholder="Alex Johnson">
+        <span class="input-helper">This will be displayed on your profile</span>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Email address</label>
+        <div class="input-with-icon">
+          <span class="input-icon">✉</span>
+          <input class="input" type="email" placeholder="alex@example.com">
+        </div>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Password</label>
+        <input class="input error" type="password" placeholder="••••••••">
+        <span class="input-error-msg">Password must be at least 8 characters</span>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Tell us about yourself</label>
+        <textarea class="input" placeholder="Share a bit about what you're working toward..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CARDS ============ -->
+  <div class="section" id="cards">
+    <div class="section-header">
+      <h2>Cards</h2>
+      <p>Content containers with different emphasis levels</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;">
+      <div class="card card-default">
+        <h3>Default Card</h3>
+        <p>Standard content container with subtle border. Use for most content sections.</p>
+      </div>
+      <div class="card card-elevated">
+        <h3>Elevated Card</h3>
+        <p>Drop shadow adds depth. Use for primary content that needs to stand out.</p>
+      </div>
+      <div class="card card-interactive">
+        <h3>Interactive Card</h3>
+        <p>Hover me — I respond to pointer events. Use for clickable project/item cards.</p>
+      </div>
+      <div class="card card-highlight">
+        <h3>Highlight Card</h3>
+        <p>Brand-color left border draws attention. Use for featured or pinned content.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ BADGES ============ -->
+  <div class="section" id="badges">
+    <div class="section-header">
+      <h2>Badges</h2>
+      <p>Status indicators and labels</p>
+    </div>
+    <div class="demo-card">
+      <div class="component-row">
+        <span class="badge badge-default">Default</span>
+        <span class="badge badge-primary">Primary</span>
+        <span class="badge badge-success">Active</span>
+        <span class="badge badge-warning">Pending</span>
+        <span class="badge badge-error">Overdue</span>
+      </div>
+      <div class="component-row">
+        <span class="badge badge-dot badge-success">In Progress</span>
+        <span class="badge badge-dot badge-warning">On Hold</span>
+        <span class="badge badge-dot badge-default">Draft</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ AVATARS ============ -->
+  <div class="section" id="avatars">
+    <div class="section-header">
+      <h2>Avatars</h2>
+      <p>User representation components</p>
+    </div>
+    <div class="demo-card">
+      <div class="component-label">Sizes</div>
+      <div class="component-row" style="align-items:center;">
+        <div class="avatar avatar-cobalt avatar-xs">A</div>
+        <div class="avatar avatar-cobalt avatar-sm">AJ</div>
+        <div class="avatar avatar-cobalt avatar-md">AJ</div>
+        <div class="avatar avatar-cobalt avatar-lg">AJ</div>
+        <div class="avatar avatar-cobalt avatar-xl">AJ</div>
+      </div>
+      <div class="component-label">Colors</div>
+      <div class="component-row">
+        <div class="avatar avatar-cobalt avatar-md">C</div>
+        <div class="avatar avatar-violet avatar-md">V</div>
+        <div class="avatar avatar-success avatar-md">S</div>
+        <div class="avatar avatar-md" style="background:#F59E0B">W</div>
+        <div class="avatar avatar-md" style="background:#EC4899">P</div>
+      </div>
+      <div class="component-label">Group</div>
+      <div class="avatar-group">
+        <div class="avatar avatar-cobalt avatar-md">A</div>
+        <div class="avatar avatar-violet avatar-md">B</div>
+        <div class="avatar avatar-success avatar-md">C</div>
+        <div class="avatar avatar-md" style="background:var(--neutral-400)">+4</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CHAT ============ -->
+  <div class="section" id="chat">
+    <div class="section-header">
+      <h2>Chat Bubbles</h2>
+      <p>AI conversation interface — core to the Discovery Session experience</p>
+    </div>
+    <div class="demo-card">
+      <div class="chat-container">
+        <div class="chat-msg">
+          <div class="avatar avatar-violet avatar-sm" style="align-self:flex-end">AI</div>
+          <div>
+            <div class="chat-bubble ai">Hello! I'm your Source Constructor companion. I'm here to help you uncover what you truly want to work on. Let's start with something simple — what's been on your mind lately?</div>
+            <div class="chat-meta">9:41 AM</div>
+          </div>
+        </div>
+        <div class="chat-msg user">
+          <div class="avatar avatar-cobalt avatar-sm" style="align-self:flex-end">AJ</div>
+          <div>
+            <div class="chat-bubble user">I've been thinking about starting a side project, but I can't decide what to build. There are too many options.</div>
+            <div class="chat-meta" style="text-align:right">9:42 AM</div>
+          </div>
+        </div>
+        <div class="chat-msg">
+          <div class="avatar avatar-violet avatar-sm" style="align-self:flex-end">AI</div>
+          <div>
+            <div class="chat-bubble ai">That feeling of having many options is actually a great starting point. Before we narrow things down — tell me, what problem in your own life have you most wanted to solve lately?</div>
+            <div class="chat-meta">9:42 AM</div>
+          </div>
+        </div>
+        <div class="chat-msg">
+          <div class="avatar avatar-violet avatar-sm">AI</div>
+          <div class="typing-indicator">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PROGRESS ============ -->
+  <div class="section" id="progress">
+    <div class="section-header">
+      <h2>Progress Indicators</h2>
+      <p>Linear and labeled progress for projects and milestones</p>
+    </div>
+    <div class="demo-card" style="display:flex;flex-direction:column;gap:24px;">
+      <div>
+        <div class="progress-label">
+          <span>Discovery Complete</span>
+          <span style="color:var(--cobalt-600);font-weight:600">100%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <div>
+        <div class="progress-label">
+          <span>Project Planning</span>
+          <span style="color:var(--cobalt-600);font-weight:600">67%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:67%"></div></div>
+      </div>
+      <div>
+        <div class="progress-label">
+          <span>MVP Development</span>
+          <span style="color:var(--cobalt-600);font-weight:600">23%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:23%"></div></div>
+      </div>
+      <div>
+        <div class="progress-label">
+          <span>First Launch</span>
+          <span style="color:var(--neutral-400);font-weight:500">0%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ALERTS ============ -->
+  <div class="section" id="alerts">
+    <div class="section-header">
+      <h2>Alerts</h2>
+      <p>Inline status messages and notifications</p>
+    </div>
+    <div class="demo-card" style="display:flex;flex-direction:column;gap:12px;">
+      <div class="alert alert-success">
+        <span class="alert-icon">✓</span>
+        <div><strong>Session saved.</strong> Your Discovery Session has been saved and insights extracted.</div>
+      </div>
+      <div class="alert alert-info">
+        <span class="alert-icon">ℹ</span>
+        <div><strong>Tip:</strong> Complete at least 3 Discovery Sessions to unlock your personalized project recommendations.</div>
+      </div>
+      <div class="alert alert-warning">
+        <span class="alert-icon">⚠</span>
+        <div><strong>Trial ending soon.</strong> You have 3 days remaining on your free trial. Upgrade to keep your projects.</div>
+      </div>
+      <div class="alert alert-error">
+        <span class="alert-icon">✕</span>
+        <div><strong>Connection lost.</strong> Unable to reach the AI service. Please check your connection and try again.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TOGGLES ============ -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Toggles</h2>
+      <p>Boolean settings and feature switches</p>
+    </div>
+    <div class="demo-card">
+      <div class="component-row" style="flex-direction:column;align-items:flex-start;gap:20px;">
+        <div style="display:flex;align-items:center;gap:12px">
+          <label class="toggle">
+            <input type="checkbox" checked>
+            <span class="toggle-slider"></span>
+          </label>
+          <span style="font-size:14px;font-weight:500">Daily check-in reminders</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <label class="toggle">
+            <input type="checkbox">
+            <span class="toggle-slider"></span>
+          </label>
+          <span style="font-size:14px;font-weight:500">Weekly progress email</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <label class="toggle">
+            <input type="checkbox" checked>
+            <span class="toggle-slider"></span>
+          </label>
+          <span style="font-size:14px;font-weight:500">Share anonymized insights with research</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="background:var(--neutral-900);color:var(--neutral-500);text-align:center;padding:32px;font-size:13px;">
+  SOC Design System v1.0 &nbsp;·&nbsp; Source Constructor &nbsp;·&nbsp; March 2026
+</div>
+
+</body>
+</html>

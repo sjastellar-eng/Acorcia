@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Source Constructor</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background-color: #F1F5F9;
+      color: #1E293B;
+      padding: 40px 16px;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #FFFFFF;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .header {
+      background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+      padding: 40px 48px;
+      text-align: center;
+    }
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: white;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+    .logo-dot {
+      width: 10px;
+      height: 10px;
+      background: rgba(255,255,255,0.8);
+      border-radius: 50%;
+    }
+    .header h1 {
+      color: white;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .header p {
+      color: rgba(255,255,255,0.85);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .body {
+      padding: 40px 48px;
+    }
+    .greeting {
+      font-size: 16px;
+      color: #334155;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 16px;
+    }
+    .step-list {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+    .step-item {
+      display: flex;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid #F1F5F9;
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-num {
+      width: 36px;
+      height: 36px;
+      background: #EEF2FF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: #2563EB;
+      flex-shrink: 0;
+    }
+    .step-content h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .step-content p {
+      font-size: 14px;
+      color: #64748B;
+      line-height: 1.5;
+    }
+    .cta-section {
+      background: #F8FAFC;
+      border-radius: 12px;
+      padding: 28px;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .cta-section p {
+      font-size: 15px;
+      color: #334155;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+      color: white;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .cta-sub {
+      font-size: 13px;
+      color: #94A3B8;
+      margin-top: 10px;
+    }
+    .quote-block {
+      border-left: 4px solid #2563EB;
+      padding: 16px 20px;
+      background: #EEF2FF;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 32px;
+    }
+    .quote-block p {
+      font-size: 15px;
+      color: #1E3A8A;
+      font-style: italic;
+      line-height: 1.6;
+    }
+    .quote-block cite {
+      display: block;
+      font-size: 13px;
+      color: #64748B;
+      margin-top: 8px;
+      font-style: normal;
+    }
+    .sign-off {
+      font-size: 15px;
+      color: #334155;
+      line-height: 1.7;
+    }
+    .sign-off .name {
+      font-weight: 600;
+      color: #0F172A;
+    }
+    .footer {
+      background: #F8FAFC;
+      border-top: 1px solid #E2E8F0;
+      padding: 24px 48px;
+      text-align: center;
+    }
+    .footer p {
+      font-size: 12px;
+      color: #94A3B8;
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+    .footer a {
+      color: #64748B;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="email-container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">
+      <div class="logo-dot"></div>
+      Source Constructor
+    </div>
+    <h1>Welcome — you just took the first step.</h1>
+    <p>You're in. Let's find out what you're truly here to build.</p>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <p class="greeting">
+      Hey {{first_name}},<br><br>
+      Most people spend years circling ideas without ever committing to one. They know something is missing — they just can't quite name it.<br><br>
+      That's exactly what Source Constructor is built to fix. Welcome.
+    </p>
+
+    <!-- FIRST STEPS -->
+    <div class="section-title">Your first 3 steps</div>
+    <ul class="step-list">
+      <li class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Start your Discovery Session</h4>
+          <p>This is the heart of SOC. A 25–35 minute AI conversation designed to uncover what you genuinely want to work on — not what sounds good, but what truly fits you.</p>
+        </div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Review your generated project</h4>
+          <p>After your session, the AI synthesizes your insights into a structured project with phases, milestones, and a 90-day task plan. Personalized to you.</p>
+        </div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Check in tomorrow morning</h4>
+          <p>Your AI companion will reach out daily — 3 minutes to stay accountable, remove blockers, and keep momentum going.</p>
+        </div>
+      </li>
+    </ul>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <p>Your first Discovery Session is ready to start. It's the most important 30 minutes you'll spend this month.</p>
+      <a href="https://app.sourceconstructor.com/session/new" class="cta-button">Start Your Discovery Session →</a>
+      <p class="cta-sub">Free · No credit card needed · Takes 25–35 minutes</p>
+    </div>
+
+    <!-- QUOTE -->
+    <div class="quote-block">
+      <p>"I spent 2 years with dozens of ideas. One session with Source Constructor and I finally knew. Six weeks later, I'm actually building it."</p>
+      <cite>— Alex M., Product Manager</cite>
+    </div>
+
+    <!-- SIGN OFF -->
+    <p class="sign-off">
+      One more thing: the Discovery Session works best when you're honest. The AI isn't judging you. It's just listening, deeply. Give it real answers.<br><br>
+      Talk soon,<br>
+      <span class="name">The SOC Team</span>
+    </p>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>Source Constructor · <a href="#">Unsubscribe</a> · <a href="#">Privacy Policy</a></p>
+    <p>You're receiving this because you signed up at sourceconstructor.com</p>
+    <p>© 2026 Source Constructor. All rights reserved.</p>
+  </div>
+
+</div>
+
+</body>
+</html>

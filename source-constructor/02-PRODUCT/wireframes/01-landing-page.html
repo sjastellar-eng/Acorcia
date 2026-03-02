@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOC Wireframe — Landing Page</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: monospace; background: #F8FAFC; color: #1E293B; font-size: 14px; }
+    .wf-label {
+      position: fixed; top: 12px; right: 12px;
+      background: #1E293B; color: #F8FAFC;
+      padding: 8px 14px; border-radius: 6px; font-size: 12px; z-index: 999;
+    }
+    .section { border: 2px dashed #CBD5E1; margin: 8px; border-radius: 8px; padding: 16px; }
+    .section-name {
+      font-size: 11px; font-weight: bold; text-transform: uppercase;
+      letter-spacing: 0.1em; color: #94A3B8; margin-bottom: 12px;
+    }
+    .box { background: #E2E8F0; border: 1px solid #CBD5E1; border-radius: 4px; padding: 8px 12px; display: inline-block; margin: 4px; font-size: 12px; }
+    .box-fill { background: #2563EB; color: white; }
+    .box-outline { border: 2px solid #2563EB; color: #2563EB; background: transparent; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 8px 0; }
+    .col { flex: 1; min-width: 120px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .placeholder { background: #CBD5E1; border-radius: 4px; }
+    .text-block { background: #F1F5F9; border-radius: 4px; padding: 8px 12px; margin: 6px 0; }
+    .large-text { font-size: 20px; font-weight: bold; padding: 12px; background: #F1F5F9; border-radius: 4px; margin: 8px 0; }
+    .annotation { color: #94A3B8; font-size: 11px; font-style: italic; margin: 4px 0; padding-left: 8px; border-left: 2px solid #CBD5E1; }
+    .chat-row { display: flex; gap: 8px; margin: 6px 0; align-items: flex-start; }
+    .chat-ai { background: #EEF2FF; border-radius: 0 12px 12px 12px; padding: 10px 14px; max-width: 70%; font-size: 12px; }
+    .chat-user { background: #2563EB; color: white; border-radius: 12px 0 12px 12px; padding: 10px 14px; max-width: 70%; margin-left: auto; font-size: 12px; }
+  </style>
+</head>
+<body>
+<div class="wf-label">Wireframe: Landing Page v1.0</div>
+
+<!-- NAV -->
+<div class="section">
+  <div class="section-name">Navigation Bar — sticky, 64px</div>
+  <div class="row">
+    <div class="box">● SOC Logo</div>
+    <div style="flex:1"></div>
+    <div class="box">Features</div>
+    <div class="box">How it works</div>
+    <div class="box">Pricing</div>
+    <div class="box">Log in</div>
+    <div class="box box-fill">Start Free →</div>
+  </div>
+  <div class="annotation">Logo left, nav links center, CTAs right. Mobile: hamburger menu</div>
+</div>
+
+<!-- HERO -->
+<div class="section">
+  <div class="section-name">Hero Section — full viewport height, centered</div>
+  <div style="text-align:center;padding:32px 16px;">
+    <div class="box" style="margin-bottom:16px;background:#EEF2FF;color:#2563EB;">★ Used by 1,000+ people finding their direction</div>
+    <div class="large-text" style="font-size:32px;text-align:center;max-width:600px;margin:0 auto 12px">
+      Discover what you truly want to build.
+    </div>
+    <div class="text-block" style="max-width:500px;margin:0 auto 24px;text-align:center">
+      AI-powered conversations that uncover your real desires — then transform them into a structured project with a 90-day plan.
+    </div>
+    <div class="row" style="justify-content:center;margin-top:16px">
+      <div class="box box-fill" style="padding:12px 24px;font-size:14px">Start Your First Discovery Session →</div>
+      <div class="box box-outline" style="padding:12px 24px;font-size:14px">▷ See how it works (90 sec)</div>
+    </div>
+    <div class="annotation" style="text-align:center;margin-top:12px">No credit card required · Free 7-day trial</div>
+  </div>
+  <div class="annotation">Hero: Large, confident headline. Subheadline explains the "how." Dual CTA: primary = try it, secondary = watch demo</div>
+</div>
+
+<!-- SOCIAL PROOF -->
+<div class="section">
+  <div class="section-name">Social Proof Bar — logos or quote strip</div>
+  <div class="row" style="justify-content:center;gap:32px;padding:8px">
+    <div class="placeholder" style="width:80px;height:24px"></div>
+    <div class="placeholder" style="width:100px;height:24px"></div>
+    <div class="placeholder" style="width:90px;height:24px"></div>
+    <div class="placeholder" style="width:110px;height:24px"></div>
+    <div class="placeholder" style="width:80px;height:24px"></div>
+  </div>
+  <div class="annotation">Featured in / used by — credibility logos or "Trusted by X people from Google, Stripe, YC..."</div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="section">
+  <div class="section-name">How It Works — 3 steps</div>
+  <div class="text-block" style="text-align:center;font-size:18px;font-weight:bold;margin-bottom:16px">From "I don't know what to build" to "Here's my 90-day plan" — in one session.</div>
+  <div class="grid-3">
+    <div class="section" style="border:1px solid #CBD5E1;text-align:center">
+      <div style="font-size:24px;margin-bottom:8px">①</div>
+      <div style="font-weight:bold;margin-bottom:6px">Discovery Session</div>
+      <div style="font-size:12px;color:#64748B">30-minute AI conversation. Deep questions, honest answers. No fluff.</div>
+    </div>
+    <div class="section" style="border:1px solid #CBD5E1;text-align:center">
+      <div style="font-size:24px;margin-bottom:8px">②</div>
+      <div style="font-weight:bold;margin-bottom:6px">Your Project Emerges</div>
+      <div style="font-size:12px;color:#64748B">The AI extracts insights and generates a project tailored to who you are.</div>
+    </div>
+    <div class="section" style="border:1px solid #CBD5E1;text-align:center">
+      <div style="font-size:24px;margin-bottom:8px">③</div>
+      <div style="font-weight:bold;margin-bottom:6px">Daily Momentum</div>
+      <div style="font-size:12px;color:#64748B">A daily AI companion keeps you on track. 3 minutes/day. Real progress.</div>
+    </div>
+  </div>
+</div>
+
+<!-- DISCOVERY DEMO PREVIEW -->
+<div class="section">
+  <div class="section-name">Discovery Session Preview — show a real AI conversation</div>
+  <div style="max-width:600px;margin:0 auto">
+    <div class="text-block" style="text-align:center;font-weight:bold;margin-bottom:16px">This is what a Discovery Session looks like</div>
+    <div class="chat-row">
+      <div class="chat-ai">Welcome. I'm your Source Constructor companion. Before we dive in — what's something you've been thinking about working on, but keep putting off?</div>
+    </div>
+    <div class="chat-row">
+      <div class="chat-user">I keep thinking about building an online course, but I'm not sure it's the right thing for me...</div>
+    </div>
+    <div class="chat-row">
+      <div class="chat-ai">Interesting. When you imagine someone finishing your course and succeeding — what does that feel like to you?</div>
+    </div>
+    <div class="chat-row">
+      <div class="chat-user">Honestly, amazing. Like I actually helped someone change their life.</div>
+    </div>
+    <div class="chat-row">
+      <div class="chat-ai">That matters to you — helping someone change, not just learning a skill. Let's go deeper: what change would you most want someone to make?</div>
+    </div>
+    <div class="annotation">This section makes the product tangible before sign-up. Show 4–5 exchanges. Rotate different session excerpts over time.</div>
+  </div>
+</div>
+
+<!-- BENEFITS / VALUE PROPS -->
+<div class="section">
+  <div class="section-name">Benefits — 3 columns with icons</div>
+  <div class="grid-3">
+    <div>
+      <div class="placeholder" style="width:40px;height:40px;border-radius:8px;margin-bottom:10px"></div>
+      <div style="font-weight:bold;margin-bottom:6px">Clarity in one session</div>
+      <div style="font-size:12px;color:#64748B">Walk in confused. Walk out with a project that actually fits you — your values, energy, and life constraints.</div>
+    </div>
+    <div>
+      <div class="placeholder" style="width:40px;height:40px;border-radius:8px;margin-bottom:10px"></div>
+      <div style="font-weight:bold;margin-bottom:6px">A plan, not just an idea</div>
+      <div style="font-size:12px;color:#64748B">Your project comes with phases, milestones, and week-by-week tasks. No blank page paralysis.</div>
+    </div>
+    <div>
+      <div class="placeholder" style="width:40px;height:40px;border-radius:8px;margin-bottom:10px"></div>
+      <div style="font-weight:bold;margin-bottom:6px">Daily momentum</div>
+      <div style="font-size:12px;color:#64748B">3-minute daily check-ins with your AI companion. Small consistent actions compound into launches.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="section">
+  <div class="section-name">Social Proof — 3 testimonials</div>
+  <div class="grid-3">
+    <div class="section" style="border:1px solid #CBD5E1">
+      <div class="row" style="margin-bottom:8px">
+        <div class="placeholder" style="width:36px;height:36px;border-radius:50%"></div>
+        <div>
+          <div style="font-weight:bold;font-size:12px">Alex M.</div>
+          <div style="font-size:11px;color:#64748B">Product Manager, 31</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#334155;font-style:italic">"I spent 2 years not knowing what to build. One session with SOC and I knew. I'm now 6 weeks into my project."</div>
+    </div>
+    <div class="section" style="border:1px solid #CBD5E1">
+      <div class="row" style="margin-bottom:8px">
+        <div class="placeholder" style="width:36px;height:36px;border-radius:50%"></div>
+        <div>
+          <div style="font-weight:bold;font-size:12px">Maria K.</div>
+          <div style="font-size:11px;color:#64748B">Career Transitioner, 34</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#334155;font-style:italic">"Better than the 6 coaching sessions I paid $900 for. And it remembered everything from our first conversation."</div>
+    </div>
+    <div class="section" style="border:1px solid #CBD5E1">
+      <div class="row" style="margin-bottom:8px">
+        <div class="placeholder" style="width:36px;height:36px;border-radius:50%"></div>
+        <div>
+          <div style="font-weight:bold;font-size:12px">Dmitri V.</div>
+          <div style="font-size:11px;color:#64748B">Software Engineer, 27</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#334155;font-style:italic">"I'm a serial abandoner of side projects. For the first time I've stayed with one idea for 8 weeks. The daily check-ins are magic."</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="section">
+  <div class="section-name">Pricing — 3 tiers</div>
+  <div class="grid-3">
+    <div class="section" style="border:1px solid #CBD5E1">
+      <div style="font-weight:bold;font-size:16px;margin-bottom:4px">Free</div>
+      <div style="font-size:22px;font-weight:bold;margin-bottom:12px">$0</div>
+      <div style="font-size:12px;color:#64748B;margin-bottom:12px">1 Discovery Session, 1 Project</div>
+      <div class="box box-outline" style="width:100%;text-align:center">Get Started Free</div>
+    </div>
+    <div class="section" style="border:2px solid #2563EB;position:relative">
+      <div class="box box-fill" style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:11px">Most Popular</div>
+      <div style="font-weight:bold;font-size:16px;margin-bottom:4px">Pro</div>
+      <div style="font-size:22px;font-weight:bold;margin-bottom:12px">$19<span style="font-size:14px;font-weight:400">/mo</span></div>
+      <div style="font-size:12px;color:#64748B;margin-bottom:12px">Unlimited sessions, Daily companion, All features</div>
+      <div class="box box-fill" style="width:100%;text-align:center">Start 7-Day Free Trial</div>
+    </div>
+    <div class="section" style="border:1px solid #CBD5E1">
+      <div style="font-weight:bold;font-size:16px;margin-bottom:4px">Annual</div>
+      <div style="font-size:22px;font-weight:bold;margin-bottom:12px">$149<span style="font-size:14px;font-weight:400">/yr</span></div>
+      <div style="font-size:12px;color:#64748B;margin-bottom:12px">Save 35% · All Pro features</div>
+      <div class="box box-outline" style="width:100%;text-align:center">Get Annual Plan</div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="section">
+  <div class="section-name">Final CTA Section — before footer</div>
+  <div style="text-align:center;padding:24px">
+    <div class="large-text">Ready to find out what you're actually building?</div>
+    <div class="text-block" style="max-width:400px;margin:12px auto;text-align:center">Your first Discovery Session is free. No credit card required.</div>
+    <div class="box box-fill" style="padding:14px 32px;font-size:15px">Start Your First Session →</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="section">
+  <div class="section-name">Footer</div>
+  <div class="row">
+    <div class="col">
+      <div style="font-weight:bold;margin-bottom:8px">● Source Constructor</div>
+      <div style="font-size:11px;color:#64748B">Know what to build. Build what matters.</div>
+    </div>
+    <div class="col">
+      <div style="font-weight:bold;margin-bottom:8px">Product</div>
+      <div class="text-block" style="font-size:11px;background:none;padding:2px 0">Features · Pricing · Changelog</div>
+    </div>
+    <div class="col">
+      <div style="font-weight:bold;margin-bottom:8px">Legal</div>
+      <div class="text-block" style="font-size:11px;background:none;padding:2px 0">Privacy · Terms · GDPR</div>
+    </div>
+    <div class="col">
+      <div style="font-weight:bold;margin-bottom:8px">Connect</div>
+      <div class="text-block" style="font-size:11px;background:none;padding:2px 0">Twitter · LinkedIn · Email</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Source Constructor — Discovery Session</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .session-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--gray-50);
+  }
+
+  .session-main {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 24px 16px 100px;
+  }
+
+  .session-card {
+    width: 100%;
+    max-width: 680px;
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .session-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .session-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .session-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--gray-900);
+  }
+
+  .question-counter {
+    font-size: 13px;
+    color: var(--gray-500);
+    font-weight: 500;
+  }
+
+  .messages-area {
+    flex: 1;
+    padding: 20px 24px;
+    height: 440px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    scroll-behavior: smooth;
+  }
+
+  .input-area {
+    padding: 16px 24px 20px;
+    border-top: 1px solid var(--gray-100);
+    background: var(--white);
+  }
+
+  .input-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  .input-textarea {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-lg);
+    font-size: 15px;
+    font-family: inherit;
+    line-height: 1.5;
+    resize: none;
+    outline: none;
+    max-height: 120px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .input-textarea:focus {
+    border-color: var(--blue-600);
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+  }
+
+  .quick-answers {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .quick-answer-btn {
+    padding: 6px 14px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    color: var(--gray-700);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+
+  .quick-answer-btn:hover {
+    background: var(--blue-50);
+    border-color: var(--blue-600);
+    color: var(--blue-600);
+  }
+
+  /* Results Screen */
+  .results-screen {
+    padding: 24px;
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 560px;
+    overflow-y: auto;
+  }
+
+  .results-header {
+    text-align: center;
+    padding: 8px 0 16px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .desire-card {
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+
+  .desire-card:hover { border-color: var(--blue-600); }
+
+  .desire-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .desire-icon-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .desire-icon {
+    font-size: 32px;
+    line-height: 1;
+  }
+
+  .desire-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--gray-900);
+    letter-spacing: -0.3px;
+  }
+
+  .confidence-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .confidence-label {
+    font-size: 12px;
+    color: var(--gray-500);
+    min-width: 90px;
+  }
+
+  .confidence-track {
+    flex: 1;
+    height: 4px;
+    background: var(--gray-200);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .confidence-fill {
+    height: 100%;
+    background: var(--blue-600);
+    border-radius: 2px;
+    transition: width 1s ease 0.5s;
+  }
+
+  .confidence-pct {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--blue-600);
+    min-width: 35px;
+    text-align: right;
+  }
+
+  .desire-insight {
+    background: var(--amber-100);
+    border-left: 3px solid var(--amber-500);
+    padding: 10px 14px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 14px;
+    color: #78350f;
+    margin-top: 12px;
+    line-height: 1.6;
+  }
+
+  .results-cta {
+    padding: 16px 24px 24px;
+    border-top: 1px solid var(--gray-100);
+    display: none;
+  }
+</style>
+</head>
+<body>
+<div class="session-layout">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Source <span>Constructor</span></a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active">Discovery</a>
+      <a href="projects.html" class="nav-link">Проекты</a>
+      <a href="dashboard.html" class="nav-link">Дашборд</a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="session-main">
+    <div class="session-card" id="sessionCard">
+
+      <!-- Header -->
+      <div class="session-header" id="sessionHeader">
+        <div class="session-header-top">
+          <span class="session-title">Discovery Session</span>
+          <span class="question-counter" id="questionCounter">Вопрос 1 из 10</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width:10%"></div>
+        </div>
+      </div>
+
+      <!-- Messages (chat view) -->
+      <div class="messages-area" id="messagesArea">
+        <!-- Messages are injected by JS -->
+      </div>
+
+      <!-- Results Screen (hidden initially) -->
+      <div class="results-screen" id="resultsScreen">
+        <div class="results-header">
+          <div style="font-size:40px; margin-bottom:8px;">🎉</div>
+          <h2 style="font-size:22px; font-weight:800; margin-bottom:6px;">Анализ завершён</h2>
+          <p style="font-size:15px; color:var(--gray-500);">AI выявил твои истинные стремления на основе паттернов в ответах</p>
+        </div>
+
+        <div id="desiresContainer"></div>
+
+        <div style="padding:16px; background:var(--blue-50); border-radius:var(--radius-lg); border:1px solid var(--blue-100);">
+          <div style="font-size:13px; color:var(--blue-600); font-weight:600; margin-bottom:6px;">💡 Что дальше?</div>
+          <p style="font-size:14px; color:var(--gray-700); line-height:1.6;">На основе этих стремлений AI создаст 2–3 персонализированных проекта с roadmap и первыми конкретными шагами.</p>
+        </div>
+      </div>
+
+      <!-- Input area (chat) -->
+      <div class="input-area" id="inputArea">
+        <div class="input-row">
+          <textarea
+            id="userInput"
+            class="input-textarea"
+            placeholder="Напиши свой ответ..."
+            rows="2"
+          ></textarea>
+          <button class="btn btn-primary" id="sendBtn" onclick="sendAnswer()">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+        <div class="quick-answers" id="quickAnswers">
+          <!-- Quick answer buttons injected by JS -->
+        </div>
+      </div>
+
+      <!-- Results CTA -->
+      <div class="results-cta" id="resultsCta">
+        <button class="btn btn-primary btn-lg" style="width:100%" onclick="SOC.navigate('projects.html')">
+          Создать проекты на основе этого →
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+<script>
+// ─────────────────────────────────────────────────────────────────
+// DISCOVERY SESSION
+// ─────────────────────────────────────────────────────────────────
+
+const QUESTIONS = [
+  {
+    text: "Привет! Я твой AI-помощник по самоисследованию. Прежде чем начать — один вопрос: опиши свой обычный будний день. Как он выглядит от пробуждения до вечера?",
+    quickAnswers: ["Работа из дома", "Офис 9-6", "Гибкий график"]
+  },
+  {
+    text: "Интересно. А теперь — твой идеальный день через 5 лет. Не думай о реалистичности, просто мечтай. Как он выглядит?",
+    quickAnswers: ["Работаю на себя", "Занимаюсь творчеством", "Путешествую и работаю"]
+  },
+  {
+    text: "Когда в последний раз ты был полностью поглощён каким-то делом — забывал поесть или о времени? Что ты делал?",
+    quickAnswers: ["Программировал", "Создавал что-то", "Решал сложную задачу"]
+  },
+  {
+    text: "Что ты делаешь, когда откладываешь важные дела? На что переключаешься?",
+    quickAnswers: ["Соцсети / YouTube", "Другие мелкие задачи", "Общаюсь с людьми"]
+  },
+  {
+    text: "Какое достижение другого человека вызывает у тебя лёгкую зависть? Не стыдись — это важный сигнал.",
+    quickAnswers: ["Запустил стартап", "Путешествует и работает", "Создал что-то популярное"]
+  },
+  {
+    text: "Если бы деньги не были проблемой совсем — чем бы ты занимался? Без 'надо', только 'хочу'.",
+    quickAnswers: ["Строил продукты", "Учил других", "Исследовал и создавал"]
+  },
+  {
+    text: "Вспомни ситуацию, когда ты чувствовал себя собой на 100%. Что происходило? Кто был рядом?",
+    quickAnswers: ["Работал один над сложной задачей", "Помогал кому-то", "Выступал/показывал работу"]
+  },
+  {
+    text: "Чего ты избегаешь, хотя знаешь что это важно для тебя? Что откладываешь уже долго?",
+    quickAnswers: ["Запустить проект", "Сменить работу", "Начать говорить о себе публично"]
+  },
+  {
+    text: "Что бы ты изменил в себе, если бы мог — без усилий и боли?",
+    quickAnswers: ["Больше действовал бы", "Был бы более уверен", "Меньше думал о мнении других"]
+  },
+  {
+    text: "Последний вопрос. Представь: прошёл ровно год, и ты очень доволен собой. Что ты сделал за этот год?",
+    quickAnswers: ["Запустил и монетизировал проект", "Нашёл работу мечты", "Создал что-то важное"]
+  }
+];
+
+const ANALYSIS_RESULTS = [
+  {
+    icon: '🎯',
+    name: 'АВТОНОМИЯ',
+    description: 'Ты 6 раз упомянул желание "решать самому", "работать на себя", избегал слов "контроль" и "начальник". Свобода для тебя важнее стабильности.',
+    insight: 'Тебе нужна карьера или проекты где ты капитан корабля. Консалтинг, собственный бизнес или remote-работа с минимумом микроменеджмента — это твоё.',
+    confidence: 94
+  },
+  {
+    icon: '🔥',
+    name: 'МАСТЕРСТВО',
+    description: 'Ты загорелся когда говорил про "поглощённость делом" и "сложные задачи". Для тебя важно быть лучшим в своём деле.',
+    insight: 'Но есть противоречие: ты откладываешь сложные задачи. Возможно, страх несовершенства блокирует действие. Нужны "safe-to-fail" эксперименты — маленькие проекты без ставок.',
+    confidence: 87
+  },
+  {
+    icon: '👁️',
+    name: 'ПРИЗНАНИЕ',
+    description: 'Ты избегал слова "признание", но 4 раза упомянул желание чтобы работу "видели" и "использовали". Это важнее денег.',
+    insight: 'Open-source, публичные продукты, speaking, контент — это твои пути к признанию. Не слава ради славы, а видимость результата работы.',
+    confidence: 72
+  }
+];
+
+let state = {
+  currentQ: 0,
+  messages: [],
+  isTyping: false,
+  sessionComplete: false,
+  answers: []
+};
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  addMessage('ai', QUESTIONS[0].text);
+  renderQuickAnswers(QUESTIONS[0].quickAnswers);
+  setupInputListeners();
+});
+
+function setupInputListeners() {
+  const input = document.getElementById('userInput');
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendAnswer();
+    }
+  });
+
+  input.addEventListener('input', () => {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+    document.getElementById('sendBtn').disabled = !input.value.trim();
+  });
+}
+
+function addMessage(role, text) {
+  const area = document.getElementById('messagesArea');
+  const msgEl = document.createElement('div');
+  msgEl.className = `message ${role}`;
+
+  const avatar = document.createElement('div');
+  avatar.className = 'message-avatar';
+  avatar.textContent = role === 'ai' ? '🤖' : '👤';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'message-bubble';
+
+  if (role === 'ai') {
+    // Typewriter effect
+    bubble.textContent = '';
+    msgEl.appendChild(avatar);
+    msgEl.appendChild(bubble);
+    area.appendChild(msgEl);
+    scrollToBottom();
+    typewriterEffect(bubble, text);
+  } else {
+    bubble.textContent = text;
+    msgEl.appendChild(avatar);
+    msgEl.appendChild(bubble);
+    area.appendChild(msgEl);
+    scrollToBottom();
+  }
+
+  state.messages.push({ role, text });
+}
+
+function typewriterEffect(el, text, speed = 18) {
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < text.length) {
+      el.textContent += text[i++];
+      scrollToBottom();
+    } else {
+      clearInterval(interval);
+    }
+  }, speed);
+}
+
+function showTypingIndicator() {
+  const area = document.getElementById('messagesArea');
+  const indicator = document.createElement('div');
+  indicator.id = 'typingIndicator';
+  indicator.className = 'message ai';
+  indicator.innerHTML = `
+    <div class="message-avatar">🤖</div>
+    <div class="typing-indicator">
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    </div>
+  `;
+  area.appendChild(indicator);
+  scrollToBottom();
+}
+
+function removeTypingIndicator() {
+  const indicator = document.getElementById('typingIndicator');
+  if (indicator) indicator.remove();
+}
+
+function scrollToBottom() {
+  const area = document.getElementById('messagesArea');
+  setTimeout(() => area.scrollTop = area.scrollHeight, 50);
+}
+
+function renderQuickAnswers(answers) {
+  const container = document.getElementById('quickAnswers');
+  container.innerHTML = '';
+  if (!answers || !answers.length) return;
+
+  answers.forEach(answer => {
+    const btn = document.createElement('button');
+    btn.className = 'quick-answer-btn';
+    btn.textContent = answer;
+    btn.onclick = () => {
+      document.getElementById('userInput').value = answer;
+      document.getElementById('sendBtn').disabled = false;
+      sendAnswer();
+    };
+    container.appendChild(btn);
+  });
+}
+
+async function sendAnswer() {
+  const input = document.getElementById('userInput');
+  const userText = input.value.trim();
+  if (!userText || state.isTyping) return;
+
+  // Add user message
+  addMessage('user', userText);
+  state.answers.push(userText);
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('sendBtn').disabled = true;
+  document.getElementById('quickAnswers').innerHTML = '';
+  state.isTyping = true;
+
+  // Advance question
+  state.currentQ++;
+  updateProgress();
+
+  await SOC.delay(500);
+  showTypingIndicator();
+  await SOC.delay(1400 + Math.random() * 600);
+  removeTypingIndicator();
+
+  if (state.currentQ < QUESTIONS.length) {
+    // Next question
+    const nextQ = QUESTIONS[state.currentQ];
+    addMessage('ai', nextQ.text);
+    renderQuickAnswers(nextQ.quickAnswers);
+  } else {
+    // Analysis
+    addMessage('ai', 'Отлично! Я проанализирую твои ответы. Это займёт несколько секунд...');
+    await SOC.delay(800);
+    showTypingIndicator();
+    await SOC.delay(2500);
+    removeTypingIndicator();
+    await showResults();
+  }
+
+  state.isTyping = false;
+}
+
+function updateProgress() {
+  const pct = Math.round((state.currentQ / QUESTIONS.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('questionCounter').textContent =
+    state.currentQ < QUESTIONS.length
+      ? `Вопрос ${state.currentQ + 1} из ${QUESTIONS.length}`
+      : 'Анализ...';
+}
+
+async function showResults() {
+  // Hide chat input
+  document.getElementById('inputArea').style.display = 'none';
+  document.getElementById('sessionHeader').style.display = 'none';
+  document.getElementById('messagesArea').style.display = 'none';
+
+  // Show results
+  const resultsScreen = document.getElementById('resultsScreen');
+  const resultsCta = document.getElementById('resultsCta');
+  resultsScreen.style.display = 'flex';
+  resultsCta.style.display = 'block';
+
+  // Render desires
+  const container = document.getElementById('desiresContainer');
+  container.innerHTML = '';
+
+  ANALYSIS_RESULTS.forEach((desire, idx) => {
+    const card = document.createElement('div');
+    card.className = 'desire-card';
+    card.style.animationDelay = `${idx * 0.2}s`;
+    card.style.animation = 'fadeSlideIn 0.4s ease both';
+    card.innerHTML = `
+      <div class="desire-header">
+        <div class="desire-icon-name">
+          <div class="desire-icon">${desire.icon}</div>
+          <div>
+            <div style="font-size:11px; color:var(--gray-400); text-transform:uppercase; letter-spacing:1px; margin-bottom:2px;">Стремление #${idx+1}</div>
+            <div class="desire-name">${desire.name}</div>
+          </div>
+        </div>
+        <div class="badge badge-blue">${desire.confidence}% уверен</div>
+      </div>
+      <p style="font-size:14px; color:var(--gray-700); line-height:1.6; margin-bottom:12px;">${desire.description}</p>
+      <div class="confidence-bar">
+        <div class="confidence-label">Confidence</div>
+        <div class="confidence-track">
+          <div class="confidence-fill" style="width:0%" data-width="${desire.confidence}%"></div>
+        </div>
+        <div class="confidence-pct">${desire.confidence}%</div>
+      </div>
+      <div class="desire-insight">💡 ${desire.insight}</div>
+    `;
+    container.appendChild(card);
+  });
+
+  // Animate confidence bars
+  setTimeout(() => {
+    document.querySelectorAll('.confidence-fill').forEach(bar => {
+      bar.style.width = bar.dataset.width;
+    });
+  }, 300);
+
+  SOC.showToast('Анализ готов! Твои истинные стремления определены.', 'success');
+}
+</script>
+</body>
+</html>

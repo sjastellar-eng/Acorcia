@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOC Wireframe — Insights Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: monospace; background: #F8FAFC; color: #1E293B; font-size: 14px; }
+    .wf-label {
+      position: fixed; top: 12px; right: 12px;
+      background: #1E293B; color: #F8FAFC;
+      padding: 8px 14px; border-radius: 6px; font-size: 12px; z-index: 999;
+    }
+    .annotation { color: #94A3B8; font-size: 11px; font-style: italic; margin: 4px 0; padding-left: 8px; border-left: 2px solid #CBD5E1; }
+    .box { background: #E2E8F0; border: 1px solid #CBD5E1; border-radius: 4px; padding: 6px 12px; display: inline-block; margin: 3px; font-size: 12px; }
+    .box-fill { background: #2563EB; color: white; border: none; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 8px 0; }
+    .shell { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+    .sidebar { border-right: 2px dashed #CBD5E1; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+    .main { padding: 16px; }
+    .section { border: 2px dashed #CBD5E1; margin-bottom: 16px; border-radius: 6px; padding: 14px; }
+    .section-name { font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; color: #94A3B8; margin-bottom: 10px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .stat-card { background: white; border: 1px solid #CBD5E1; border-radius: 8px; padding: 16px; }
+    .stat-number { font-size: 32px; font-weight: bold; color: #2563EB; }
+    .stat-label { font-size: 12px; color: #64748B; margin-top: 4px; }
+    .stat-trend { font-size: 11px; margin-top: 6px; }
+    .insight-card { background: #EEF2FF; border-left: 3px solid #2563EB; border-radius: 0 8px 8px 0; padding: 12px 14px; margin: 8px 0; }
+    .theme-tag { display: inline-block; background: #EEF2FF; color: #2563EB; padding: 4px 10px; border-radius: 4px; font-size: 11px; margin: 3px; }
+    .bar-chart { display: flex; flex-direction: column; gap: 8px; }
+    .bar-row { display: flex; gap: 8px; align-items: center; }
+    .bar-label { font-size: 11px; width: 120px; flex-shrink: 0; text-align: right; color: #64748B; }
+    .bar-track { flex: 1; height: 20px; background: #E2E8F0; border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; background: linear-gradient(90deg, #2563EB, #7C3AED); border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 10px; color: white; }
+    .session-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px dashed #E2E8F0; }
+    .session-item:last-child { border-bottom: none; }
+    .timeline-dot { width: 12px; height: 12px; border-radius: 50%; background: #2563EB; flex-shrink: 0; margin-top: 4px; }
+    .heatmap { display: grid; grid-template-columns: repeat(13, 1fr); gap: 3px; }
+    .hm-cell { width: 100%; aspect-ratio: 1; border-radius: 2px; }
+  </style>
+</head>
+<body>
+<div class="wf-label">Wireframe: Insights Dashboard v1.0</div>
+
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="section-name">Sidebar</div>
+    <div class="box" style="background:#1E293B;color:white;text-align:center">● SOC</div>
+    <div style="margin-top:8px;font-size:11px;color:#94A3B8;text-transform:uppercase;letter-spacing:0.1em">Navigation</div>
+    <div class="box" style="width:100%">🧭 New Session</div>
+    <div class="box" style="width:100%">📁 My Project</div>
+    <div class="box" style="width:100%;background:#EEF2FF;color:#2563EB">📊 Progress</div>
+    <div class="box" style="width:100%">💡 Insights</div>
+    <div style="flex:1"></div>
+    <div class="box" style="width:100%;font-size:11px">[ AJ ] Alex Johnson</div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+
+    <!-- PAGE HEADER -->
+    <div class="section">
+      <div class="section-name">Page Header</div>
+      <div class="row">
+        <div>
+          <div style="font-size:22px;font-weight:bold">Progress & Insights</div>
+          <div style="font-size:12px;color:#64748B">Your journey since March 1, 2026 · Day 23</div>
+        </div>
+        <div style="flex:1"></div>
+        <div class="box">Last 7 days ▾</div>
+        <div class="box">Last 30 days ▾</div>
+        <div class="box box-fill">Export Report</div>
+      </div>
+    </div>
+
+    <!-- KEY METRICS -->
+    <div class="section">
+      <div class="section-name">Key Metrics — Summary Cards</div>
+      <div class="grid-4">
+        <div class="stat-card">
+          <div class="stat-number">23</div>
+          <div class="stat-label">Days active</div>
+          <div class="stat-trend" style="color:#10B981">▲ Longest streak: 8 days</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Discovery Sessions</div>
+          <div class="stat-trend" style="color:#64748B">Next: Recommended in 4 days</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">12</div>
+          <div class="stat-label">Tasks completed</div>
+          <div class="stat-trend" style="color:#10B981">▲ +4 vs last week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">34%</div>
+          <div class="stat-label">Project progress</div>
+          <div class="stat-trend" style="color:#2563EB">On track for 90-day goal</div>
+        </div>
+      </div>
+      <div class="annotation">4 key metrics always visible. Time filter applies to all charts below.</div>
+    </div>
+
+    <div class="grid-2">
+
+      <!-- CHECK-IN HEATMAP -->
+      <div class="section">
+        <div class="section-name">Check-In Activity — Last 13 weeks</div>
+        <div style="font-size:11px;color:#64748B;margin-bottom:8px">Mon → Sun · Darker = more engaged check-in</div>
+        <div class="heatmap">
+          <!-- Simulated heatmap cells -->
+          <div class="hm-cell" style="background:#CBD5E1"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:0.3"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:0.6"></div>
+          <div class="hm-cell" style="background:#CBD5E1"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:0.4"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:0.8"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:0.2"></div>
+          <div class="hm-cell" style="background:#CBD5E1"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:0.9"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:1"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:0.7"></div>
+          <div class="hm-cell" style="background:#CBD5E1"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:0.5"></div>
+          <!-- Row 2 -->
+          <div class="hm-cell" style="background:#CBD5E1"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:1"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:0.8"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:0.6"></div>
+          <div class="hm-cell" style="background:#CBD5E1"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:0.9"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:1"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:0.7"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:1"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:0.8"></div>
+          <div class="hm-cell" style="background:#CBD5E1"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:0.4"></div>
+          <div class="hm-cell" style="background:#2563EB;opacity:0.9"></div>
+        </div>
+        <div class="row" style="margin-top:8px;justify-content:flex-end">
+          <div style="font-size:11px;color:#94A3B8">Less</div>
+          <div class="hm-cell" style="width:14px;height:14px;background:#E2E8F0"></div>
+          <div class="hm-cell" style="width:14px;height:14px;background:#2563EB;opacity:0.3"></div>
+          <div class="hm-cell" style="width:14px;height:14px;background:#2563EB;opacity:0.6"></div>
+          <div class="hm-cell" style="width:14px;height:14px;background:#2563EB;opacity:0.9"></div>
+          <div style="font-size:11px;color:#94A3B8">More</div>
+        </div>
+        <div class="annotation">GitHub-style heatmap. Hover shows date + check-in summary snippet.</div>
+      </div>
+
+      <!-- WEEKLY TASKS COMPLETED -->
+      <div class="section">
+        <div class="section-name">Tasks Completed — by Week</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-label">Week 1</div>
+            <div class="bar-track"><div class="bar-fill" style="width:30%">3</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Week 2</div>
+            <div class="bar-track"><div class="bar-fill" style="width:50%">5</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Week 3</div>
+            <div class="bar-track"><div class="bar-fill" style="width:40%">4</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">This Week</div>
+            <div class="bar-track"><div class="bar-fill" style="width:70%">Ongoing</div></div>
+          </div>
+        </div>
+        <div class="annotation">Horizontal bar chart. Simple, readable. "This week" bar grows in real time.</div>
+      </div>
+    </div>
+
+    <!-- TOP THEMES -->
+    <div class="section">
+      <div class="section-name">Recurring Themes from Discovery Sessions</div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:13px;margin-bottom:8px">These themes appeared consistently across your sessions. They reflect what you truly care about.</div>
+        <div>
+          <span class="theme-tag" style="font-size:13px;padding:6px 14px">Teaching & Explaining ×9</span>
+          <span class="theme-tag" style="font-size:13px;padding:6px 14px">Making complex → simple ×7</span>
+          <span class="theme-tag" style="font-size:13px;padding:6px 14px">Developer growth ×6</span>
+          <span class="theme-tag" style="font-size:11px;padding:5px 12px">Scalable impact ×5</span>
+          <span class="theme-tag" style="font-size:11px;padding:5px 12px">Content creation ×4</span>
+          <span class="theme-tag" style="font-size:11px;padding:5px 12px">Systems thinking ×4</span>
+          <span class="theme-tag" style="font-size:10px;padding:4px 10px">Side income ×3</span>
+          <span class="theme-tag" style="font-size:10px;padding:4px 10px">Independence ×3</span>
+        </div>
+      </div>
+      <div class="annotation">Tag cloud (size = frequency of appearance). Clicking a tag shows all session quotes related to that theme.</div>
+    </div>
+
+    <!-- AI INSIGHTS + SESSION HISTORY -->
+    <div class="grid-2">
+
+      <div class="section">
+        <div class="section-name">AI-Generated Insights</div>
+        <div class="insight-card">
+          <div style="font-size:11px;color:#2563EB;font-weight:bold;margin-bottom:4px">FROM SESSION 3 · March 8</div>
+          <div style="font-size:13px">"When asked about money, you consistently reframe to impact. This suggests financial security is a threshold, not a driver — you need enough, not more."</div>
+        </div>
+        <div class="insight-card">
+          <div style="font-size:11px;color:#2563EB;font-weight:bold;margin-bottom:4px">PATTERN DETECTED · Week 3</div>
+          <div style="font-size:13px">"You've mentioned 'finding time in evenings' as a blocker 4 times. Consider scheduling your project work as a morning routine instead."</div>
+        </div>
+        <div class="insight-card">
+          <div style="font-size:11px;color:#2563EB;font-weight:bold;margin-bottom:4px">FROM SESSION 1 · March 1</div>
+          <div style="font-size:13px">"The feeling you described when someone 'gets it' — that's not pride in yourself. That's joy at witnessing growth. That's a teacher's heart."</div>
+        </div>
+        <div class="annotation">AI insights surface over time as patterns emerge. Each is dated and sourced. Cannot be deleted by user.</div>
+      </div>
+
+      <div class="section">
+        <div class="section-name">Discovery Session History</div>
+        <div class="session-item">
+          <div class="timeline-dot"></div>
+          <div>
+            <div style="font-weight:bold;font-size:13px">Session 3 — "Getting unstuck on Module 2"</div>
+            <div style="font-size:11px;color:#64748B">March 8, 2026 · 28 minutes · Focused Session</div>
+            <div style="font-size:12px;margin-top:4px">Explored the block around "who am I to teach this" — resolved to credentials-through-value, not titles.</div>
+            <div class="row" style="margin-top:6px">
+              <div class="box" style="font-size:10px">View full session</div>
+              <div class="box" style="font-size:10px">Key quotes</div>
+            </div>
+          </div>
+        </div>
+        <div class="session-item">
+          <div class="timeline-dot" style="background:#10B981"></div>
+          <div>
+            <div style="font-weight:bold;font-size:13px">Session 2 — "Validating the audience"</div>
+            <div style="font-size:11px;color:#64748B">March 5, 2026 · 35 minutes · Open Discovery</div>
+            <div style="font-size:12px;margin-top:4px">Narrowed audience from "all developers" to "3–5 yr devs targeting senior roles." Defined curriculum pillars.</div>
+            <div class="row" style="margin-top:6px">
+              <div class="box" style="font-size:10px">View full session</div>
+            </div>
+          </div>
+        </div>
+        <div class="session-item">
+          <div class="timeline-dot" style="background:#7C3AED"></div>
+          <div>
+            <div style="font-weight:bold;font-size:13px">Session 1 — "Discovery"</div>
+            <div style="font-size:11px;color:#64748B">March 1, 2026 · 32 minutes · Open Discovery</div>
+            <div style="font-size:12px;margin-top:4px">Generated DevPath Academy project. Identified core motivation: helping developers cross the gap to senior.</div>
+            <div class="row" style="margin-top:6px">
+              <div class="box" style="font-size:10px">View full session</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:12px">
+          <div class="box box-fill" style="font-size:12px">+ Start New Session</div>
+        </div>
+        <div class="annotation">Session history: reverse chronological. Each session has a summary + link to full transcript. New session CTA always visible.</div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

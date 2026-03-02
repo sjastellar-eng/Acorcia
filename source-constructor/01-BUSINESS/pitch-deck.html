@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Source Constructor — Investor Pitch Deck</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #0a0a0f; color: #fff; }
+
+  .deck { width: 100%; }
+
+  .slide {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 80px;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  .slide-number {
+    position: absolute;
+    bottom: 30px;
+    right: 40px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 2px;
+  }
+
+  .slide-label {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  /* Colors */
+  .bg-dark { background: #0a0a0f; }
+  .bg-blue { background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); }
+  .bg-dark-blue { background: #0f172a; }
+  .bg-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); }
+
+  h1 { font-size: 72px; font-weight: 800; line-height: 1.1; letter-spacing: -2px; }
+  h2 { font-size: 48px; font-weight: 700; line-height: 1.2; letter-spacing: -1px; }
+  h3 { font-size: 32px; font-weight: 600; }
+  p { font-size: 20px; line-height: 1.6; color: rgba(255,255,255,0.75); }
+
+  .accent { color: #60a5fa; }
+  .accent-warm { color: #f59e0b; }
+  .muted { color: rgba(255,255,255,0.5); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; width: 100%; max-width: 1100px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; width: 100%; max-width: 1100px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px; width: 100%; max-width: 1100px; }
+
+  .card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 32px;
+  }
+
+  .card-highlight {
+    background: rgba(96,165,250,0.1);
+    border: 1px solid rgba(96,165,250,0.3);
+    border-radius: 16px;
+    padding: 32px;
+  }
+
+  .stat {
+    text-align: center;
+    padding: 24px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .stat-num {
+    font-size: 52px;
+    font-weight: 800;
+    color: #60a5fa;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(96,165,250,0.15);
+    border: 1px solid rgba(96,165,250,0.3);
+    border-radius: 100px;
+    font-size: 13px;
+    color: #93c5fd;
+    margin-bottom: 16px;
+  }
+
+  .check-list { list-style: none; margin-top: 16px; }
+  .check-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.8);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 18px;
+  }
+  .check-list li:last-child { border-bottom: none; }
+  .check { color: #34d399; font-size: 18px; flex-shrink: 0; }
+  .x-mark { color: #f87171; font-size: 18px; flex-shrink: 0; }
+
+  .timeline { display: flex; gap: 0; width: 100%; max-width: 1100px; margin-top: 20px; }
+  .timeline-item {
+    flex: 1;
+    padding: 20px;
+    position: relative;
+  }
+  .timeline-item:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255,255,255,0.3);
+    font-size: 20px;
+  }
+  .timeline-quarter {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #60a5fa;
+    margin-bottom: 8px;
+  }
+  .timeline-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .timeline-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.5;
+  }
+
+  .quote {
+    font-size: 28px;
+    font-style: italic;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.5;
+    position: relative;
+    padding-left: 30px;
+    border-left: 3px solid #60a5fa;
+    max-width: 800px;
+    text-align: left;
+  }
+
+  .logo-text {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+  }
+  .logo-text span { color: #60a5fa; }
+
+  .bar-chart { width: 100%; max-width: 700px; margin-top: 20px; }
+  .bar-row { display: flex; align-items: center; margin-bottom: 16px; gap: 16px; }
+  .bar-label { width: 80px; font-size: 14px; color: rgba(255,255,255,0.6); text-align: right; }
+  .bar-track { flex: 1; height: 36px; background: rgba(255,255,255,0.05); border-radius: 6px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; justify-content: flex-end; padding-right: 12px; font-size: 14px; font-weight: 600; }
+  .bar-value { width: 80px; font-size: 14px; color: rgba(255,255,255,0.8); }
+
+  .funnel { width: 100%; max-width: 600px; }
+  .funnel-step {
+    margin: 0 auto 8px;
+    padding: 16px 24px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  table { width: 100%; border-collapse: collapse; max-width: 1000px; }
+  th {
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.4);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  td {
+    padding: 14px 16px;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.8);
+  }
+  tr:last-child td { border-bottom: none; }
+  .td-highlight { color: #60a5fa; font-weight: 600; }
+  .td-green { color: #34d399; font-weight: 600; }
+
+  .nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+    background: rgba(10,10,15,0.8);
+    padding: 8px 16px;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-dot.active { background: #60a5fa; width: 24px; border-radius: 4px; }
+
+  @media print {
+    .nav { display: none; }
+    .slide { min-height: 100vh; page-break-after: always; }
+  }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+<!-- SLIDE 1: COVER -->
+<div class="slide bg-dark" id="slide-1">
+  <div class="slide-label">Source Constructor</div>
+  <div style="text-align:center; max-width: 900px;">
+    <div class="logo-text" style="margin-bottom:32px;">Source <span>Constructor</span></div>
+    <h1 style="font-size:64px; margin-bottom: 24px;">
+      Что, если твои цели —<br><span class="accent">не твои?</span>
+    </h1>
+    <p style="font-size:22px; max-width:600px; margin:0 auto 48px;">
+      AI, который выявляет истинные желания<br>и превращает их в реальные проекты
+    </p>
+    <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+      <div class="stat" style="padding: 16px 32px;">
+        <div style="font-size:13px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1px;">Seed Round</div>
+        <div style="font-size:32px; font-weight:800; color:#60a5fa;">$350,000</div>
+      </div>
+      <div class="stat" style="padding: 16px 32px;">
+        <div style="font-size:13px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1px;">Market</div>
+        <div style="font-size:32px; font-weight:800; color:#60a5fa;">$3.2B</div>
+      </div>
+      <div class="stat" style="padding: 16px 32px;">
+        <div style="font-size:13px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1px;">NPS (Pilot)</div>
+        <div style="font-size:32px; font-weight:800; color:#34d399;">67</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">01 / 15</div>
+</div>
+
+<!-- SLIDE 2: PROBLEM -->
+<div class="slide bg-dark-blue" id="slide-2">
+  <div class="slide-label">Problem</div>
+  <div style="max-width:1100px; width:100%;">
+    <div class="tag">THE PROBLEM</div>
+    <h2 style="margin-bottom:16px;">92% целей проваливаются.<br>Но не по той причине, которую вы думаете.</h2>
+    <p style="margin-bottom:48px;">Дело не в дисциплине. Дело в том, что большинство людей гонятся за <em>чужими</em> желаниями.</p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div style="font-size:40px; margin-bottom:16px;">😶‍🌫️</div>
+        <div style="font-size:20px; font-weight:600; margin-bottom:12px; color:#f87171;">Неясность</div>
+        <p style="font-size:15px;">"Я не знаю чего хочу на самом деле"</p>
+        <div style="margin-top:16px; font-size:28px; font-weight:800; color:#f87171;">43%</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.4);">людей 25–35 лет не могут сформулировать долгосрочные цели</div>
+      </div>
+      <div class="card">
+        <div style="font-size:40px; margin-bottom:16px;">🗺️</div>
+        <div style="font-size:20px; font-weight:600; margin-bottom:12px; color:#f59e0b;">Нет плана</div>
+        <p style="font-size:15px;">"Идея есть, но не знаю как начать"</p>
+        <div style="margin-top:16px; font-size:28px; font-weight:800; color:#f59e0b;">68%</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.4);">имеют незапущенные идеи дольше 6 месяцев</div>
+      </div>
+      <div class="card">
+        <div style="font-size:40px; margin-bottom:16px;">⏹️</div>
+        <div style="font-size:20px; font-weight:600; margin-bottom:12px; color:#a78bfa;">Нет momentum</div>
+        <p style="font-size:15px;">"Начинаю — и бросаю через месяц"</p>
+        <div style="margin-top:16px; font-size:28px; font-weight:800; color:#a78bfa;">92%</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.4);">новогодних резолюций проваливаются</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">02 / 15</div>
+</div>
+
+<!-- SLIDE 3: SOLUTION -->
+<div class="slide bg-gradient" id="slide-3">
+  <div class="slide-label">Solution</div>
+  <div style="max-width:1000px; width:100%; text-align:center;">
+    <div class="tag">OUR SOLUTION</div>
+    <h2 style="margin-bottom:48px;">От "не знаю чего хочу"<br>до готового проекта — за <span class="accent">24 часа</span></h2>
+
+    <div class="grid-3" style="text-align:left;">
+      <div class="card-highlight">
+        <div style="font-size:36px; margin-bottom:16px;">🔍</div>
+        <div class="accent" style="font-size:13px; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;">Шаг 1</div>
+        <div style="font-size:20px; font-weight:700; margin-bottom:12px;">DISCOVER</div>
+        <p style="font-size:15px; line-height:1.6;">20-минутный AI-диалог. Адаптивные вопросы. Выявляем истинные желания, противоречия, паттерны.</p>
+      </div>
+      <div class="card-highlight">
+        <div style="font-size:36px; margin-bottom:16px;">⚡</div>
+        <div class="accent" style="font-size:13px; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;">Шаг 2</div>
+        <div style="font-size:20px; font-weight:700; margin-bottom:12px;">CREATE</div>
+        <p style="font-size:15px; line-height:1.6;">AI генерирует 2–3 персонализированных проекта с roadmap, milestones и первыми шагами.</p>
+      </div>
+      <div class="card-highlight">
+        <div style="font-size:36px; margin-bottom:16px;">🚀</div>
+        <div class="accent" style="font-size:13px; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;">Шаг 3</div>
+        <div style="font-size:20px; font-weight:700; margin-bottom:12px;">BUILD</div>
+        <p style="font-size:15px; line-height:1.6;">Daily AI companion. Ежедневные check-ins, адаптация плана, accountability.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">03 / 15</div>
+</div>
+
+<!-- SLIDE 4: PRODUCT DEMO -->
+<div class="slide bg-dark" id="slide-4">
+  <div class="slide-label">Product</div>
+  <div style="max-width:1100px; width:100%;">
+    <div class="tag">PRODUCT DEMO</div>
+    <h2 style="margin-bottom:40px;">Discovery Session — <span class="accent">как это работает</span></h2>
+
+    <div class="grid-2" style="align-items:start;">
+      <div>
+        <div style="background:#111827; border-radius:16px; padding:24px; border:1px solid rgba(255,255,255,0.1);">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+            <div style="width:10px;height:10px;background:#ef4444;border-radius:50%;"></div>
+            <div style="width:10px;height:10px;background:#f59e0b;border-radius:50%;"></div>
+            <div style="width:10px;height:10px;background:#10b981;border-radius:50%;"></div>
+            <span style="font-size:13px;color:rgba(255,255,255,0.3);margin-left:8px;">discovery-session.soc</span>
+          </div>
+          <div style="margin-bottom:16px;">
+            <div style="background:#1e40af; padding:12px 16px; border-radius:12px 12px 12px 0; display:inline-block; font-size:15px; max-width:80%;">
+              Расскажи про последний раз, когда ты был по-настоящему увлечён работой. Что это было?
+            </div>
+          </div>
+          <div style="margin-bottom:16px; text-align:right;">
+            <div style="background:#374151; padding:12px 16px; border-radius:12px 12px 0 12px; display:inline-block; font-size:15px; max-width:80%; text-align:left;">
+              Когда делал open-source библиотеку ночью. Забыл поесть — было 3 утра...
+            </div>
+          </div>
+          <div>
+            <div style="background:#1e40af; padding:12px 16px; border-radius:12px 12px 12px 0; display:inline-block; font-size:15px; max-width:80%;">
+              Интересно. Ты сказал "ночью" и "забыл поесть". Что именно давало такой заряд — создание чего-то нового, решение сложной задачи, или то что люди это увидят?
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px; background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.2); border-radius:12px; padding:16px;">
+          <div style="font-size:13px; color:#34d399; margin-bottom:6px;">AI INSIGHT</div>
+          <div style="font-size:15px; color:rgba(255,255,255,0.8);">Выявлен паттерн: мастерство + автономия. Следующий вопрос адаптирован.</div>
+        </div>
+      </div>
+
+      <div>
+        <div style="margin-bottom:20px;">
+          <div style="font-size:13px; color:rgba(255,255,255,0.4); margin-bottom:8px; text-transform:uppercase; letter-spacing:1px;">Прогресс сессии</div>
+          <div style="background:rgba(255,255,255,0.1); height:8px; border-radius:4px; overflow:hidden;">
+            <div style="background:linear-gradient(90deg,#60a5fa,#a78bfa);width:65%;height:100%;border-radius:4px;"></div>
+          </div>
+          <div style="font-size:13px; color:rgba(255,255,255,0.4); margin-top:6px;">Вопрос 13 из 20</div>
+        </div>
+
+        <div style="font-size:14px; color:rgba(255,255,255,0.5); margin-bottom:12px; text-transform:uppercase; letter-spacing:1px;">Выявлено пока:</div>
+        <div class="check-list" style="margin-top:0;">
+          <li><span class="check">✓</span> Мастерство: высокий приоритет</li>
+          <li><span class="check">✓</span> Автономия: критически важна</li>
+          <li><span style="color:#f59e0b;">?</span> Признание vs. внутренняя мотивация — уточняем</li>
+          <li><span style="color:rgba(255,255,255,0.3);">○</span> Социальная связь — ещё не определено</li>
+        </div>
+
+        <div style="margin-top:24px; padding:16px; background:rgba(96,165,250,0.08); border-radius:12px; border:1px solid rgba(96,165,250,0.2);">
+          <div style="font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:8px;">После сессии вы получите:</div>
+          <ul style="list-style:none; font-size:15px; line-height:2; color:rgba(255,255,255,0.8);">
+            <li>🎯 3–5 истинных стремлений с объяснением</li>
+            <li>⚡ 2–3 готовых проекта с roadmap</li>
+            <li>📊 Карту противоречий и паттернов</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">04 / 15</div>
+</div>
+
+<!-- SLIDE 5: MARKET OPPORTUNITY -->
+<div class="slide bg-dark-blue" id="slide-5">
+  <div class="slide-label">Market</div>
+  <div style="max-width:1100px; width:100%;">
+    <div class="tag">MARKET OPPORTUNITY</div>
+    <h2 style="margin-bottom:48px;">$3.2B рынок, растущий <span class="accent">24% в год</span></h2>
+
+    <div style="display:flex; gap:48px; align-items:center; flex-wrap:wrap;">
+      <div style="flex:1; min-width:300px;">
+        <div style="margin-bottom:32px;">
+          <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px;">
+            <div style="width:80px; height:80px; background:rgba(96,165,250,0.1); border:2px solid rgba(96,165,250,0.2); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:#60a5fa; text-align:center; line-height:1.2; flex-shrink:0;">TAM<br>$90B</div>
+            <div>
+              <div style="font-size:15px; font-weight:600; margin-bottom:4px;">Total Addressable Market</div>
+              <div style="font-size:13px; color:rgba(255,255,255,0.5);">300M+ людей глобально с проблемой неясных целей</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px;">
+            <div style="width:68px; height:68px; background:rgba(167,139,250,0.1); border:2px solid rgba(167,139,250,0.2); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:#a78bfa; text-align:center; line-height:1.2; flex-shrink:0;">SAM<br>$3.2B</div>
+            <div>
+              <div style="font-size:15px; font-weight:600; margin-bottom:4px;">Serviceable Addressable Market</div>
+              <div style="font-size:13px; color:rgba(255,255,255,0.5);">18M EN+RU digital users, платящие за self-dev</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:16px;">
+            <div style="width:52px; height:52px; background:rgba(52,211,153,0.1); border:2px solid rgba(52,211,153,0.2); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:#34d399; text-align:center; line-height:1.2; flex-shrink:0;">SOM<br>$3.3M</div>
+            <div>
+              <div style="font-size:15px; font-weight:600; margin-bottom:4px;">SOC — Year 3 Target ARR</div>
+              <div style="font-size:13px; color:rgba(255,255,255,0.5);">Консервативно 0.1% от SAM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex:1; min-width:300px;">
+        <div style="font-size:14px; color:rgba(255,255,255,0.4); margin-bottom:16px; text-transform:uppercase; letter-spacing:1px;">Рост рынка AI self-development, $B</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-label">2022</div>
+            <div class="bar-track"><div class="bar-fill" style="width:20%;background:#1e40af;">$0.8B</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">2023</div>
+            <div class="bar-track"><div class="bar-fill" style="width:32%;background:#1e40af;">$1.3B</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">2024</div>
+            <div class="bar-track"><div class="bar-fill" style="width:48%;background:#2563eb;">$1.9B</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">2025</div>
+            <div class="bar-track"><div class="bar-fill" style="width:60%;background:#3b82f6;">$2.4B</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">2026</div>
+            <div class="bar-track"><div class="bar-fill" style="width:80%;background:#60a5fa;">$3.2B</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">2030</div>
+            <div class="bar-track"><div class="bar-fill" style="width:100%;background:linear-gradient(90deg,#60a5fa,#a78bfa);">$8.1B</div></div>
+          </div>
+        </div>
+        <div style="font-size:13px; color:rgba(255,255,255,0.4); margin-top:8px;">CAGR: 24% | Источник: MarketsandMarkets + GVR, 2025</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">05 / 15</div>
+</div>
+
+<!-- SLIDE 6: BUSINESS MODEL -->
+<div class="slide bg-dark" id="slide-6">
+  <div class="slide-label">Business Model</div>
+  <div style="max-width:1100px; width:100%;">
+    <div class="tag">BUSINESS MODEL</div>
+    <h2 style="margin-bottom:48px;">SaaS подписка + <span class="accent">B2B</span> в Year 2</h2>
+
+    <div class="grid-3" style="margin-bottom:40px;">
+      <div class="card" style="border-color:rgba(255,255,255,0.1);">
+        <div style="font-size:13px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1px; margin-bottom:16px;">Free</div>
+        <div style="font-size:40px; font-weight:800; margin-bottom:8px;">$0</div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.5); margin-bottom:20px;">Для привлечения</div>
+        <ul class="check-list" style="font-size:14px;">
+          <li><span class="check">✓</span> 1 Discovery Session</li>
+          <li><span class="check">✓</span> 1 Project</li>
+          <li><span class="check">✓</span> Basic check-ins</li>
+        </ul>
+      </div>
+      <div class="card-highlight" style="position:relative;">
+        <div style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:#1e40af; padding:4px 16px; border-radius:100px; font-size:12px; font-weight:600; color:#93c5fd;">ПОПУЛЯРНЫЙ</div>
+        <div style="font-size:13px; color:#60a5fa; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px;">Pro</div>
+        <div style="font-size:40px; font-weight:800; margin-bottom:4px;">$19<span style="font-size:18px; color:rgba(255,255,255,0.5);">/мес</span></div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.5); margin-bottom:20px;">Основной тариф</div>
+        <ul class="check-list" style="font-size:14px;">
+          <li><span class="check">✓</span> Unlimited Sessions</li>
+          <li><span class="check">✓</span> 5 проектов</li>
+          <li><span class="check">✓</span> Daily AI Companion</li>
+          <li><span class="check">✓</span> Insights & Analytics</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div style="font-size:13px; color:#a78bfa; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px;">Coach</div>
+        <div style="font-size:40px; font-weight:800; margin-bottom:4px;">$79<span style="font-size:18px; color:rgba(255,255,255,0.5);">/мес</span></div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.5); margin-bottom:20px;">Power users</div>
+        <ul class="check-list" style="font-size:14px;">
+          <li><span class="check">✓</span> Всё из Pro</li>
+          <li><span class="check">✓</span> 1 сессия с коучем/мес</li>
+          <li><span class="check">✓</span> Priority AI support</li>
+          <li><span class="check">✓</span> Advanced analytics</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:24px; flex-wrap:wrap;">
+      <div class="stat">
+        <div class="stat-num">8%</div>
+        <div class="stat-label">Free → Pro конверсия</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">72%</div>
+        <div class="stat-label">Gross Margin</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">$114</div>
+        <div class="stat-label">LTV (Year 1)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">$35</div>
+        <div class="stat-label">Blended CAC</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3.3x</div>
+        <div class="stat-label">LTV:CAC Ratio</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">06 / 15</div>
+</div>
+
+<!-- SLIDE 7: TRACTION -->
+<div class="slide bg-dark-blue" id="slide-7">
+  <div class="slide-label">Traction</div>
+  <div style="max-width:1000px; width:100%; text-align:center;">
+    <div class="tag">TRACTION</div>
+    <h2 style="margin-bottom:48px;">Пилот с <span class="accent">12 пользователями</span> доказал PMF</h2>
+
+    <div class="grid-4" style="margin-bottom:48px;">
+      <div class="stat">
+        <div class="stat-num">83%</div>
+        <div class="stat-label">Завершили Discovery Session</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" style="color:#34d399;">67</div>
+        <div class="stat-label">NPS после сессии</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">8/12</div>
+        <div class="stat-label">Активны через 30 дней</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">$0</div>
+        <div class="stat-label">CAC (friends & family)</div>
+      </div>
+    </div>
+
+    <div class="quote" style="margin:0 auto;">
+      "Первый раз за 3 года я понял чего хочу на самом деле. ChatGPT никогда не давал такого."
+      <div style="font-size:16px; margin-top:12px; color:rgba(255,255,255,0.4);">— Иван, 28, developer, Москва | Alpha user</div>
+    </div>
+
+    <div style="margin-top:40px; padding:24px; background:rgba(52,211,153,0.08); border:1px solid rgba(52,211,153,0.2); border-radius:16px; text-align:left;">
+      <div style="font-size:14px; color:#34d399; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px;">Что планируется к питчу (3 месяца):</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div style="font-size:15px; color:rgba(255,255,255,0.8);">☑ 500 waitlist signups</div>
+        <div style="font-size:15px; color:rgba(255,255,255,0.8);">☑ Рабочий MVP (v0.5)</div>
+        <div style="font-size:15px; color:rgba(255,255,255,0.8);">☑ 50 alpha users</div>
+        <div style="font-size:15px; color:rgba(255,255,255,0.8);">☑ NPS > 50 подтверждён</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">07 / 15</div>
+</div>
+
+<!-- SLIDE 8: COMPETITION -->
+<div class="slide bg-dark" id="slide-8">
+  <div class="slide-label">Competition</div>
+  <div style="max-width:1100px; width:100%;">
+    <div class="tag">COMPETITION</div>
+    <h2 style="margin-bottom:40px;">Мы занимаем <span class="accent">незанятую нишу</span></h2>
+
+    <div style="display:flex; gap:40px; align-items:center; flex-wrap:wrap;">
+      <!-- Positioning Map -->
+      <div style="flex:1; min-width:300px;">
+        <div style="background:#111827; border-radius:16px; padding:32px; border:1px solid rgba(255,255,255,0.1); position:relative; height:340px;">
+          <!-- Axes -->
+          <div style="position:absolute; top:50%; left:0; right:0; border-top:1px dashed rgba(255,255,255,0.15);"></div>
+          <div style="position:absolute; left:50%; top:0; bottom:0; border-left:1px dashed rgba(255,255,255,0.15);"></div>
+          <!-- Labels -->
+          <div style="position:absolute; top:12px; left:50%; transform:translateX(-50%); font-size:11px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1px;">Human</div>
+          <div style="position:absolute; bottom:12px; left:50%; transform:translateX(-50%); font-size:11px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1px;">AI</div>
+          <div style="position:absolute; left:12px; top:50%; transform:translateY(-50%) rotate(-90deg); font-size:11px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1px;">Unstructured</div>
+          <div style="position:absolute; right:8px; top:50%; transform:translateY(-50%) rotate(90deg); font-size:11px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1px;">Structured</div>
+
+          <!-- Competitors -->
+          <div style="position:absolute; top:60px; left:80px; font-size:12px; color:rgba(255,255,255,0.5);">BetterUp</div>
+          <div style="position:absolute; top:58px; left:74px; width:8px; height:8px; background:#94a3b8; border-radius:50%;"></div>
+
+          <div style="position:absolute; top:70px; right:80px; font-size:12px; color:rgba(255,255,255,0.5);">Coach.me</div>
+          <div style="position:absolute; top:68px; right:74px; width:8px; height:8px; background:#94a3b8; border-radius:50%;"></div>
+
+          <div style="position:absolute; bottom:60px; left:60px; font-size:12px; color:rgba(255,255,255,0.5);">Replika</div>
+          <div style="position:absolute; bottom:58px; left:54px; width:8px; height:8px; background:#94a3b8; border-radius:50%;"></div>
+
+          <div style="position:absolute; bottom:80px; left:100px; font-size:12px; color:rgba(255,255,255,0.5);">Pi.ai</div>
+          <div style="position:absolute; bottom:78px; left:94px; width:8px; height:8px; background:#94a3b8; border-radius:50%;"></div>
+
+          <div style="position:absolute; bottom:70px; right:60px; font-size:12px; color:rgba(255,255,255,0.5);">Notion</div>
+          <div style="position:absolute; bottom:68px; right:54px; width:8px; height:8px; background:#94a3b8; border-radius:50%;"></div>
+
+          <!-- SOC — highlight position -->
+          <div style="position:absolute; bottom:100px; right:90px; font-size:14px; font-weight:700; color:#60a5fa;">SOC ★</div>
+          <div style="position:absolute; bottom:98px; right:84px; width:12px; height:12px; background:#60a5fa; border-radius:50%; box-shadow:0 0 12px #60a5fa;"></div>
+        </div>
+      </div>
+
+      <!-- Feature table -->
+      <div style="flex:1.2; min-width:300px; overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Функция</th>
+              <th style="color:#60a5fa;">SOC</th>
+              <th>Replika</th>
+              <th>BetterUp</th>
+              <th>Notion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Discovery AI диалог</td><td class="td-green">✓</td><td style="color:rgba(255,255,255,0.5);">~</td><td style="color:#f87171;">—</td><td style="color:#f87171;">—</td></tr>
+            <tr><td>Выявление желаний</td><td class="td-green">✓</td><td style="color:#f87171;">—</td><td style="color:rgba(255,255,255,0.5);">~</td><td style="color:#f87171;">—</td></tr>
+            <tr><td>Генерация проектов</td><td class="td-green">✓</td><td style="color:#f87171;">—</td><td style="color:#f87171;">—</td><td style="color:#f87171;">—</td></tr>
+            <tr><td>Roadmap + план</td><td class="td-green">✓</td><td style="color:#f87171;">—</td><td style="color:rgba(255,255,255,0.5);">~</td><td style="color:rgba(255,255,255,0.5);">~</td></tr>
+            <tr><td>Daily companion</td><td class="td-green">✓</td><td class="td-green">✓</td><td style="color:#f87171;">—</td><td style="color:#f87171;">—</td></tr>
+            <tr><td>Цена < $25/мес</td><td class="td-green">✓</td><td class="td-green">✓</td><td style="color:#f87171;">—</td><td class="td-green">✓</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">08 / 15</div>
+</div>
+
+<!-- SLIDE 9: COMPETITIVE ADVANTAGE -->
+<div class="slide bg-gradient" id="slide-9">
+  <div class="slide-label">Advantage</div>
+  <div style="max-width:1000px; width:100%; text-align:center;">
+    <div class="tag">COMPETITIVE ADVANTAGE</div>
+    <h2 style="margin-bottom:48px;">3 рва, которые сложно скопировать</h2>
+
+    <div class="grid-3" style="text-align:left;">
+      <div class="card">
+        <div style="font-size:40px; margin-bottom:20px;">🧠</div>
+        <h3 style="font-size:22px; margin-bottom:12px; color:#60a5fa;">Методология</h3>
+        <p style="font-size:15px; line-height:1.6;">Уникальный фреймворк на пересечении коучинга, CBT и JTBD. Сотни часов итерации discovery-диалога. Не копируется за месяц.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:40px; margin-bottom:20px;">📊</div>
+        <h3 style="font-size:22px; margin-bottom:12px; color:#a78bfa;">Data Flywheel</h3>
+        <p style="font-size:15px; line-height:1.6;">Каждый пользователь улучшает модель. Чем больше людей — тем точнее AI. Competitive advantage растёт со временем.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:40px; margin-bottom:20px;">🤝</div>
+        <h3 style="font-size:22px; margin-bottom:12px; color:#34d399;">Community Moat</h3>
+        <p style="font-size:15px; line-height:1.6;">Accountability partners, circles — это сеть. Ценность растёт с каждым новым участником. Высокий switching cost.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">09 / 15</div>
+</div>
+
+<!-- SLIDE 10: GO TO MARKET -->
+<div class="slide bg-dark-blue" id="slide-10">
+  <div class="slide-label">Go-to-Market</div>
+  <div style="max-width:1100px; width:100%;">
+    <div class="tag">GO-TO-MARKET</div>
+    <h2 style="margin-bottom:40px;">Три канала роста на первый год</h2>
+
+    <div class="grid-3" style="margin-bottom:40px;">
+      <div class="card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <div style="width:40px; height:40px; background:#1e40af; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px;">✍️</div>
+          <div style="font-size:18px; font-weight:700;">Content</div>
+        </div>
+        <p style="font-size:14px; line-height:1.7; color:rgba(255,255,255,0.7);">SEO-блог, Build in Public Twitter, Reddit communities. Organic — $0 CAC.</p>
+        <div style="margin-top:16px; font-size:28px; font-weight:800; color:#60a5fa;">40%</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.4);">трафика Year 1</div>
+      </div>
+      <div class="card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <div style="width:40px; height:40px; background:#1e40af; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px;">📣</div>
+          <div style="font-size:18px; font-weight:700;">Influencer</div>
+        </div>
+        <p style="font-size:14px; line-height:1.7; color:rgba(255,255,255,0.7);">15–20 micro-influencers (10–50k followers). Self-development ниша. CAC ~$22.</p>
+        <div style="margin-top:16px; font-size:28px; font-weight:800; color:#a78bfa;">30%</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.4);">трафика Year 1</div>
+      </div>
+      <div class="card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <div style="width:40px; height:40px; background:#1e40af; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px;">💸</div>
+          <div style="font-size:18px; font-weight:700;">Paid Social</div>
+        </div>
+        <p style="font-size:14px; line-height:1.7; color:rgba(255,255,255,0.7);">Meta Ads, таргет на 25–38, интересы self-development. CAC ~$28.</p>
+        <div style="margin-top:16px; font-size:28px; font-weight:800; color:#34d399;">30%</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.4);">трафика Year 1</div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-quarter">Q1–Q2 2026</div>
+        <div class="timeline-title">Pre-Launch</div>
+        <div class="timeline-desc">Waitlist 500, content foundation, community seeding</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-quarter">Q3 2026</div>
+        <div class="timeline-title">Alpha</div>
+        <div class="timeline-desc">50 users, validate PMF, iterate</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-quarter">Q4 2026</div>
+        <div class="timeline-title">Beta</div>
+        <div class="timeline-desc">500 users, $5k MRR</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-quarter">Q1 2027</div>
+        <div class="timeline-title">Launch</div>
+        <div class="timeline-desc">Product Hunt, PR, 5k users</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">10 / 15</div>
+</div>
+
+<!-- SLIDE 11: ROADMAP -->
+<div class="slide bg-dark" id="slide-11">
+  <div class="slide-label">Roadmap</div>
+  <div style="max-width:1100px; width:100%;">
+    <div class="tag">18-MONTH ROADMAP</div>
+    <h2 style="margin-bottom:48px;">Путь от прототипа до <span class="accent">Series A</span></h2>
+
+    <div style="display:grid; gap:16px;">
+      <div style="display:grid; grid-template-columns:120px 1fr; gap:24px; align-items:center;">
+        <div style="text-align:right; font-size:14px; color:rgba(255,255,255,0.5);">Мес. 1–4</div>
+        <div style="background:rgba(96,165,250,0.1); border:1px solid rgba(96,165,250,0.3); border-radius:12px; padding:16px;">
+          <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+            <span style="font-size:14px; font-weight:700; color:#60a5fa; min-width:100px;">MVP Dev</span>
+            <span style="font-size:13px; color:rgba(255,255,255,0.7);">Discovery Session · Project Generation · Basic Dashboard · Stripe integration</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:120px 1fr; gap:24px; align-items:center;">
+        <div style="text-align:right; font-size:14px; color:rgba(255,255,255,0.5);">Мес. 5–6</div>
+        <div style="background:rgba(167,139,250,0.1); border:1px solid rgba(167,139,250,0.3); border-radius:12px; padding:16px;">
+          <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+            <span style="font-size:14px; font-weight:700; color:#a78bfa; min-width:100px;">Alpha</span>
+            <span style="font-size:13px; color:rgba(255,255,255,0.7);">50 пользователей · итерации продукта · NPS > 50 · collect testimonials</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:120px 1fr; gap:24px; align-items:center;">
+        <div style="text-align:right; font-size:14px; color:rgba(255,255,255,0.5);">Мес. 7–9</div>
+        <div style="background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.3); border-radius:12px; padding:16px;">
+          <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+            <span style="font-size:14px; font-weight:700; color:#34d399; min-width:100px;">Beta v1.0</span>
+            <span style="font-size:13px; color:rgba(255,255,255,0.7);">Daily AI Companion · Insights · Paid ads старт · 500 users · $5k MRR</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:120px 1fr; gap:24px; align-items:center;">
+        <div style="text-align:right; font-size:14px; color:rgba(255,255,255,0.5);">Мес. 10–12</div>
+        <div style="background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.3); border-radius:12px; padding:16px;">
+          <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+            <span style="font-size:14px; font-weight:700; color:#f59e0b; min-width:100px;">Launch</span>
+            <span style="font-size:13px; color:rgba(255,255,255,0.7);">Product Hunt · PR · 5k users · $8k MRR · публичный доступ</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:120px 1fr; gap:24px; align-items:center;">
+        <div style="text-align:right; font-size:14px; color:rgba(255,255,255,0.5);">Год 2</div>
+        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:16px;">
+          <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+            <span style="font-size:14px; font-weight:700; min-width:100px;">Series A</span>
+            <span style="font-size:13px; color:rgba(255,255,255,0.7);">Accountability Partners · B2B pilot · $50k MRR → поднимаем $2M</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">11 / 15</div>
+</div>
+
+<!-- SLIDE 12: TEAM -->
+<div class="slide bg-dark-blue" id="slide-12">
+  <div class="slide-label">Team</div>
+  <div style="max-width:1000px; width:100%; text-align:center;">
+    <div class="tag">TEAM</div>
+    <h2 style="margin-bottom:48px;">Основатели + <span class="accent">key hires</span></h2>
+
+    <div class="grid-2" style="margin-bottom:40px; text-align:left;">
+      <div class="card-highlight">
+        <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px;">
+          <div style="width:56px; height:56px; background:linear-gradient(135deg,#1e40af,#7c3aed); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px;">👤</div>
+          <div>
+            <div style="font-size:18px; font-weight:700;">CEO / Product Lead</div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.5);">Основатель</div>
+          </div>
+        </div>
+        <ul class="check-list" style="font-size:14px;">
+          <li><span class="check">✓</span> 7 лет в product management</li>
+          <li><span class="check">✓</span> Ex-PM в growth-stage стартапе</li>
+          <li><span class="check">✓</span> Личный опыт с коучингом 2+ года</li>
+          <li><span class="check">✓</span> Строит в нише личностного роста</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px;">
+          <div style="width:56px; height:56px; background:rgba(255,255,255,0.08); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; border:2px dashed rgba(255,255,255,0.2);">+</div>
+          <div>
+            <div style="font-size:18px; font-weight:700; color:#f59e0b;">CTO (ищем)</div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.5);">Equity: 15–20%</div>
+          </div>
+        </div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.6); line-height:1.8;">
+          Требования:<br>
+          • Node.js / React / TypeScript<br>
+          • Опыт с AI API (Claude / OpenAI)<br>
+          • Startup background (0→1)<br>
+          • Full-time, aligned on vision
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:24px; background:rgba(255,255,255,0.04); border-radius:16px; border:1px solid rgba(255,255,255,0.08); text-align:left;">
+      <div style="font-size:14px; color:rgba(255,255,255,0.4); margin-bottom:16px; text-transform:uppercase; letter-spacing:1px;">Найм после закрытия раунда</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;">
+        <div style="font-size:15px;"><span style="color:#60a5fa; font-weight:600;">Мес. 2</span><br>Lead Designer</div>
+        <div style="font-size:15px;"><span style="color:#60a5fa; font-weight:600;">Мес. 8</span><br>Growth Marketer</div>
+        <div style="font-size:15px;"><span style="color:#60a5fa; font-weight:600;">Year 2</span><br>Customer Success</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">12 / 15</div>
+</div>
+
+<!-- SLIDE 13: FINANCIALS -->
+<div class="slide bg-dark" id="slide-13">
+  <div class="slide-label">Financials</div>
+  <div style="max-width:1100px; width:100%;">
+    <div class="tag">FINANCIALS</div>
+    <h2 style="margin-bottom:40px;">Прибыльность в <span class="accent">месяц 22</span></h2>
+
+    <div style="display:flex; gap:40px; align-items:flex-start; flex-wrap:wrap;">
+      <div style="flex:1; min-width:280px;">
+        <table>
+          <thead>
+            <tr>
+              <th>Показатель</th>
+              <th>Year 1</th>
+              <th>Year 2</th>
+              <th>Year 3</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>ARR</td><td>$91k</td><td>$939k</td><td class="td-highlight">$3.9M</td></tr>
+            <tr><td>Gross Margin</td><td>72%</td><td>88%</td><td class="td-green">93%</td></tr>
+            <tr><td>Пользователи</td><td>5,000</td><td>35,000</td><td>120,000</td></tr>
+            <tr><td>Платящие</td><td>400</td><td>3,500</td><td>14,400</td></tr>
+            <tr><td>EBITDA</td><td style="color:#f87171;">-$209k</td><td class="td-green">+$73k</td><td class="td-green">+$1.88M</td></tr>
+            <tr><td>CAC</td><td>$35</td><td>$28</td><td>$22</td></tr>
+            <tr><td>LTV:CAC</td><td>3.3x</td><td>4.3x</td><td class="td-green">7.1x</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="flex:1; min-width:280px;">
+        <div style="font-size:14px; color:rgba(255,255,255,0.4); margin-bottom:16px; text-transform:uppercase; letter-spacing:1px;">MRR Growth ($k)</div>
+        <div>
+          <div class="bar-row" style="margin-bottom:10px;">
+            <div class="bar-label">Q1 '26</div>
+            <div class="bar-track" style="height:28px;"><div class="bar-fill" style="width:2%;background:#1e3a8a;">$0.1k</div></div>
+          </div>
+          <div class="bar-row" style="margin-bottom:10px;">
+            <div class="bar-label">Q2 '26</div>
+            <div class="bar-track" style="height:28px;"><div class="bar-fill" style="width:5%;background:#1e40af;">$1.9k</div></div>
+          </div>
+          <div class="bar-row" style="margin-bottom:10px;">
+            <div class="bar-label">Q3 '26</div>
+            <div class="bar-track" style="height:28px;"><div class="bar-fill" style="width:12%;background:#2563eb;">$3.4k</div></div>
+          </div>
+          <div class="bar-row" style="margin-bottom:10px;">
+            <div class="bar-label">Q4 '26</div>
+            <div class="bar-track" style="height:28px;"><div class="bar-fill" style="width:20%;background:#3b82f6;">$8.7k</div></div>
+          </div>
+          <div class="bar-row" style="margin-bottom:10px;">
+            <div class="bar-label">Q2 '27</div>
+            <div class="bar-track" style="height:28px;"><div class="bar-fill" style="width:45%;background:#60a5fa;">$37k</div></div>
+          </div>
+          <div class="bar-row" style="margin-bottom:10px;">
+            <div class="bar-label">Q4 '27</div>
+            <div class="bar-track" style="height:28px;"><div class="bar-fill" style="width:78%;background:linear-gradient(90deg,#60a5fa,#a78bfa);">$87k</div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">EOY '28</div>
+            <div class="bar-track" style="height:28px;"><div class="bar-fill" style="width:100%;background:linear-gradient(90deg,#a78bfa,#34d399);">$332k</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">13 / 15</div>
+</div>
+
+<!-- SLIDE 14: THE ASK -->
+<div class="slide bg-blue" id="slide-14">
+  <div class="slide-label">The Ask</div>
+  <div style="max-width:1000px; width:100%; text-align:center;">
+    <div class="tag" style="background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.3); color:#fff;">THE ASK</div>
+    <h2 style="font-size:56px; margin-bottom:16px;">Ищем <span style="font-size:72px; font-weight:900;">$350,000</span></h2>
+    <p style="font-size:20px; margin-bottom:48px; color:rgba(255,255,255,0.85);">Seed раунд | 18 месяцев runway | До Series A при $50k MRR</p>
+
+    <div class="grid-4" style="margin-bottom:48px; text-align:left;">
+      <div style="background:rgba(255,255,255,0.1); border-radius:12px; padding:20px;">
+        <div style="font-size:32px; font-weight:800; margin-bottom:8px;">$140k</div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.7);">Engineering<br>(CTO + contractor)</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.5); margin-top:4px;">40%</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1); border-radius:12px; padding:20px;">
+        <div style="font-size:32px; font-weight:800; margin-bottom:8px;">$70k</div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.7);">Marketing<br>(Paid + Content)</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.5); margin-top:4px;">20%</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1); border-radius:12px; padding:20px;">
+        <div style="font-size:32px; font-weight:800; margin-bottom:8px;">$42k</div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.7);">Design<br>(Lead Designer)</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.5); margin-top:4px;">12%</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1); border-radius:12px; padding:20px;">
+        <div style="font-size:32px; font-weight:800; margin-bottom:8px;">$98k</div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.7);">Infra + Legal<br>+ Buffer</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.5); margin-top:4px;">28%</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.15); border-radius:16px; padding:24px; text-align:left; max-width:700px; margin:0 auto;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:16px;">
+        <div><span style="color:rgba(255,255,255,0.6);">Тип раунда:</span><br><strong>Pre-Seed / Seed</strong></div>
+        <div><span style="color:rgba(255,255,255,0.6);">Инструмент:</span><br><strong>SAFE / Convertible note</strong></div>
+        <div><span style="color:rgba(255,255,255,0.6);">Valuation cap:</span><br><strong>$2.5M</strong></div>
+        <div><span style="color:rgba(255,255,255,0.6);">Discount:</span><br><strong>20%</strong></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">14 / 15</div>
+</div>
+
+<!-- SLIDE 15: CONTACT / CTA -->
+<div class="slide bg-dark" id="slide-15">
+  <div style="text-align:center; max-width:800px;">
+    <div class="logo-text" style="margin-bottom:32px; font-size:36px;">Source <span>Constructor</span></div>
+    <h1 style="font-size:52px; margin-bottom:24px;">
+      Давайте поговорим
+    </h1>
+    <p style="font-size:22px; margin-bottom:48px; color:rgba(255,255,255,0.7);">
+      Покажем прототип, расскажем про методологию,<br>ответим на любые вопросы
+    </p>
+
+    <div style="display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-bottom:48px;">
+      <a href="mailto:founder@sourceconstructor.ai" style="display:flex; align-items:center; gap:10px; padding:16px 28px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; text-decoration:none; color:#fff; font-size:16px;">
+        📧 founder@sourceconstructor.ai
+      </a>
+      <a href="#" style="display:flex; align-items:center; gap:10px; padding:16px 28px; background:#1e40af; border-radius:12px; text-decoration:none; color:#fff; font-size:16px; font-weight:600;">
+        🚀 Открыть прототип
+      </a>
+    </div>
+
+    <div style="display:flex; gap:40px; justify-content:center; flex-wrap:wrap;">
+      <div class="stat">
+        <div class="stat-num">$350k</div>
+        <div class="stat-label">Ищем</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">$2.5M</div>
+        <div class="stat-label">Valuation Cap</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">18 мес</div>
+        <div class="stat-label">Runway</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">15 / 15</div>
+</div>
+
+</div>
+
+<!-- Navigation dots -->
+<nav class="nav" id="nav"></nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const nav = document.getElementById('nav');
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => slides[i].scrollIntoView({ behavior: 'smooth' });
+    nav.appendChild(dot);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const idx = Array.from(slides).indexOf(entry.target);
+        document.querySelectorAll('.nav-dot').forEach((d, i) => {
+          d.classList.toggle('active', i === idx);
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+
+  slides.forEach(s => observer.observe(s));
+
+  document.addEventListener('keydown', (e) => {
+    const active = Array.from(document.querySelectorAll('.nav-dot')).findIndex(d => d.classList.contains('active'));
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      if (active < slides.length - 1) slides[active + 1].scrollIntoView({ behavior: 'smooth' });
+    }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      if (active > 0) slides[active - 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+</script>
+</body>
+</html>

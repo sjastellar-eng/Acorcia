@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Source Constructor — Проекты</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .projects-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px 16px 80px;
+  }
+
+  .page-header {
+    margin-bottom: 32px;
+  }
+
+  .page-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  .page-header p {
+    font-size: 15px;
+    color: var(--gray-500);
+  }
+
+  .project-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    margin-bottom: 20px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .project-card:hover {
+    border-color: var(--blue-600);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .project-card-header {
+    padding: 24px 28px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    cursor: pointer;
+  }
+
+  .project-icon {
+    font-size: 40px;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gray-100);
+    border-radius: var(--radius-lg);
+  }
+
+  .project-meta {
+    flex: 1;
+  }
+
+  .project-category {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--blue-600);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .project-name {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    margin-bottom: 6px;
+  }
+
+  .project-vision {
+    font-size: 14px;
+    color: var(--gray-600);
+    line-height: 1.6;
+  }
+
+  .project-stats {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  .project-stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--gray-500);
+  }
+
+  .project-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .project-body {
+    padding: 0 28px 24px;
+    display: none;
+  }
+
+  .project-body.open { display: block; }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gray-400);
+    margin-bottom: 12px;
+    margin-top: 20px;
+  }
+
+  .milestone-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .milestone-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--gray-50);
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-100);
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+
+  .milestone-item:hover { background: var(--blue-50); border-color: var(--blue-100); }
+
+  .milestone-item.done {
+    opacity: 0.6;
+    text-decoration: line-through;
+  }
+
+  .milestone-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--gray-300);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+
+  .milestone-item.done .milestone-checkbox {
+    background: var(--blue-600);
+    border-color: var(--blue-600);
+  }
+
+  .milestone-text {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-800);
+  }
+
+  .milestone-date {
+    font-size: 12px;
+    color: var(--gray-400);
+  }
+
+  .task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .task-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+
+  .task-item:hover { background: var(--gray-50); border-color: var(--gray-200); }
+
+  .task-check {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--gray-300);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+
+  .task-item.done .task-check {
+    background: var(--green-500);
+    border-color: var(--green-500);
+    color: white;
+    font-size: 11px;
+  }
+
+  .task-item.done .task-text {
+    text-decoration: line-through;
+    color: var(--gray-400);
+  }
+
+  .task-text {
+    font-size: 14px;
+    color: var(--gray-700);
+    flex: 1;
+  }
+
+  .priority-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .priority-high { background: var(--red-500); }
+  .priority-medium { background: var(--amber-500); }
+  .priority-low { background: var(--gray-300); }
+
+  .insight-item {
+    display: flex;
+    gap: 10px;
+    padding: 12px;
+    background: var(--amber-100);
+    border-radius: var(--radius);
+    font-size: 14px;
+    color: #78350f;
+  }
+
+  .why-card {
+    background: var(--blue-50);
+    border: 1px solid var(--blue-100);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+
+  .why-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--blue-600);
+    margin-bottom: 6px;
+  }
+
+  .why-text {
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.6;
+  }
+
+  .add-project-card {
+    border: 2px dashed var(--gray-300);
+    border-radius: var(--radius-xl);
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .add-project-card:hover {
+    border-color: var(--blue-600);
+    background: var(--blue-50);
+  }
+
+  /* Checkin modal */
+  .checkin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .mood-selector {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .mood-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: var(--gray-100);
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mood-btn.selected {
+    border-color: var(--blue-600);
+    background: var(--blue-50);
+    transform: scale(1.15);
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">Source <span>Constructor</span></a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Discovery</a>
+    <a href="projects.html" class="nav-link active">Проекты</a>
+    <a href="dashboard.html" class="nav-link">Дашборд</a>
+  </div>
+</nav>
+
+<div class="projects-container">
+
+  <div class="page-header">
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+      <div>
+        <h1>Мои проекты</h1>
+        <p>Созданы на основе твоей Discovery Session · 2 активных</p>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn btn-secondary" onclick="openCheckin()">✅ Дневной check-in</button>
+        <button class="btn btn-primary" onclick="newSession()">+ Новая сессия</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects list -->
+  <div id="projectsList"></div>
+
+  <!-- Add project -->
+  <div class="add-project-card" onclick="newSession()">
+    <div style="font-size:32px; margin-bottom:12px;">+</div>
+    <div style="font-size:16px; font-weight:600; color:var(--gray-700); margin-bottom:4px;">Добавить проект</div>
+    <div style="font-size:14px; color:var(--gray-400);">Пройди новую Discovery Session или создай проект вручную</div>
+  </div>
+
+</div>
+
+<!-- Check-in Modal -->
+<div class="modal-overlay" id="checkinModal" style="display:none" onclick="closeCheckin(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h2 style="font-size:20px; font-weight:800; margin-bottom:4px;">Дневной check-in</h2>
+    <p style="font-size:14px; color:var(--gray-500); margin-bottom:24px;">Займёт 3 минуты. Помогает AI понять как у тебя дела.</p>
+
+    <div class="checkin-form">
+      <div>
+        <div class="form-label">Как ты себя чувствуешь сегодня?</div>
+        <div class="mood-selector" id="moodSelector">
+          <button class="mood-btn" data-mood="1" onclick="selectMood(this)">😞</button>
+          <button class="mood-btn" data-mood="2" onclick="selectMood(this)">😕</button>
+          <button class="mood-btn" data-mood="3" onclick="selectMood(this)">😐</button>
+          <button class="mood-btn" data-mood="4" onclick="selectMood(this)">🙂</button>
+          <button class="mood-btn" data-mood="5" onclick="selectMood(this)">😄</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Что сделал сегодня по проекту?</label>
+        <textarea class="form-textarea" id="checkinProgress" placeholder="Опиши любое действие, даже маленькое..." rows="3"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Что планируешь завтра?</label>
+        <textarea class="form-textarea" id="checkinNext" placeholder="Один конкретный шаг..." rows="2"></textarea>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-secondary" style="flex:1" onclick="closeCheckin()">Отмена</button>
+        <button class="btn btn-primary" style="flex:2" onclick="submitCheckin()">Отправить →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI Response Modal -->
+<div class="modal-overlay" id="aiResponseModal" style="display:none" onclick="closeAiResponse()">
+  <div class="modal" style="max-width:460px;" onclick="event.stopPropagation()">
+    <div style="text-align:center; margin-bottom:24px;">
+      <div style="font-size:48px; margin-bottom:12px;">🤖</div>
+      <h2 style="font-size:20px; font-weight:800;">AI отвечает</h2>
+    </div>
+    <div id="aiResponseText" style="font-size:15px; color:var(--gray-700); line-height:1.7; padding:16px; background:var(--gray-50); border-radius:var(--radius-lg); margin-bottom:20px;"></div>
+    <div style="font-size:13px; color:var(--gray-400); text-align:center; margin-bottom:16px;">🔥 Streak: <strong id="streakDisplay">7 дней</strong></div>
+    <button class="btn btn-primary" style="width:100%" onclick="closeAiResponse()">Отлично, спасибо!</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+let selectedMood = null;
+
+document.addEventListener('DOMContentLoaded', renderProjects);
+
+function renderProjects() {
+  const container = document.getElementById('projectsList');
+  container.innerHTML = '';
+
+  SOC.state.projects.forEach((project, idx) => {
+    const completedMilestones = project.milestones.filter(m => m.done).length;
+    const completedTasks = project.tasks.filter(t => t.done).length;
+
+    const card = document.createElement('div');
+    card.className = 'project-card';
+    card.innerHTML = `
+      <div class="project-card-header" onclick="toggleProject('body-${project.id}', this)">
+        <div class="project-icon">${project.icon}</div>
+        <div class="project-meta">
+          <div class="project-category">${project.category}</div>
+          <div class="project-name">${project.name}</div>
+          <div class="project-vision">${project.vision.substring(0, 100)}...</div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <div class="progress-bar" style="width:80px;">
+                <div class="progress-fill" style="width:${project.progress}%"></div>
+              </div>
+              <span>${project.progress}%</span>
+            </div>
+            <div class="project-stat">📍 ${completedMilestones}/${project.milestones.length} вех</div>
+            <div class="project-stat">✅ ${completedTasks}/${project.tasks.length} задач</div>
+            <span class="badge badge-${project.status === 'active' ? 'green' : 'gray'}">${project.status === 'active' ? 'Активен' : 'Пауза'}</span>
+          </div>
+        </div>
+        <div class="project-actions" onclick="event.stopPropagation()">
+          <button class="btn btn-sm btn-secondary" onclick="openCheckin()">Check-in</button>
+        </div>
+      </div>
+
+      <div class="project-body" id="body-${project.id}">
+        <div class="why-card">
+          <div class="why-label">Почему этот проект — твой</div>
+          <div class="why-text">${project.why}</div>
+        </div>
+
+        <div class="section-title">Вехи (Milestones)</div>
+        <div class="milestone-list">
+          ${project.milestones.map(m => `
+            <div class="milestone-item ${m.done ? 'done' : ''}" onclick="toggleMilestone('${m.id}', '${project.id}', this)">
+              <div class="milestone-checkbox">
+                ${m.done ? '<svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>' : ''}
+              </div>
+              <div class="milestone-text">${m.title}</div>
+              <div class="milestone-date">${SOC.formatDate(m.date)}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="section-title">Текущие задачи</div>
+        <div class="task-list">
+          ${project.tasks.map(t => `
+            <div class="task-item ${t.done ? 'done' : ''}" onclick="toggleTask('${t.id}', '${project.id}', this)">
+              <div class="task-check">${t.done ? '✓' : ''}</div>
+              <div class="task-text">${t.title}</div>
+              <div class="priority-dot priority-${t.priority}"></div>
+            </div>
+          `).join('')}
+        </div>
+
+        ${project.insights.length ? `
+          <div class="section-title">Инсайты AI</div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            ${project.insights.map(ins => `
+              <div class="insight-item">
+                <span>💡</span>
+                <div>
+                  <div>${ins.text}</div>
+                  <div style="font-size:12px; color:#92400e; margin-top:2px;">${SOC.formatRelativeDate(ins.date)}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        ` : ''}
+
+        <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--gray-100); display:flex; gap:8px;">
+          <button class="btn btn-secondary btn-sm" onclick="SOC.showToast('Функция в разработке', 'default')">✏️ Редактировать</button>
+          <button class="btn btn-secondary btn-sm" onclick="SOC.showToast('Проект поставлен на паузу', 'default')">⏸ Пауза</button>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+function toggleProject(bodyId, header) {
+  const body = document.getElementById(bodyId);
+  body.classList.toggle('open');
+}
+
+function toggleMilestone(milestoneId, projectId, el) {
+  const project = SOC.getProject(projectId);
+  const milestone = project.milestones.find(m => m.id === milestoneId);
+  milestone.done = !milestone.done;
+  el.classList.toggle('done', milestone.done);
+  el.querySelector('.milestone-checkbox').innerHTML = milestone.done
+    ? '<svg width="12" height="12" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>'
+    : '';
+
+  if (milestone.done) {
+    SOC.showToast('🎉 Веха выполнена!', 'success');
+    // Update progress
+    const project = SOC.getProject(projectId);
+    const done = project.milestones.filter(m => m.done).length;
+    project.progress = Math.round((done / project.milestones.length) * 100);
+  }
+}
+
+function toggleTask(taskId, projectId, el) {
+  const project = SOC.getProject(projectId);
+  const task = project.tasks.find(t => t.id === taskId);
+  task.done = !task.done;
+  el.classList.toggle('done', task.done);
+  el.querySelector('.task-check').textContent = task.done ? '✓' : '';
+  if (task.done) SOC.showToast('Задача выполнена!', 'success');
+}
+
+function selectMood(btn) {
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedMood = parseInt(btn.dataset.mood);
+}
+
+function openCheckin() {
+  document.getElementById('checkinModal').style.display = 'flex';
+  selectedMood = null;
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('checkinProgress').value = '';
+  document.getElementById('checkinNext').value = '';
+}
+
+function closeCheckin(e) {
+  if (!e || e.target === document.getElementById('checkinModal')) {
+    document.getElementById('checkinModal').style.display = 'none';
+  }
+}
+
+async function submitCheckin() {
+  const progress = document.getElementById('checkinProgress').value.trim();
+  if (!selectedMood || !progress) {
+    SOC.showToast('Выбери настроение и опиши что сделал', 'error');
+    return;
+  }
+
+  document.getElementById('checkinModal').style.display = 'none';
+
+  // Simulate AI processing
+  const responses = [
+    'Молодец! Конкретное действие — это и есть прогресс. Продолжай в том же духе завтра. Один шаг в день — это 365 шагов в год.',
+    'Слышу тебя! Даже небольшой прогресс — это движение. Что было самым трудным сегодня?',
+    'Отличная работа! Замечаю что ты уже 7 дней подряд делаешь check-ins. Это само по себе говорит о твоей серьёзности.',
+    'Интересно! Ты упомянул что было сложно начать — это классический паттерн. Завтра попробуй начать с самого маленького шага, 5 минут.',
+  ];
+
+  const aiResponse = responses[Math.floor(Math.random() * responses.length)];
+
+  document.getElementById('aiResponseText').textContent = aiResponse;
+  SOC.state.user.streak++;
+  document.getElementById('streakDisplay').textContent = SOC.state.user.streak + ' дней';
+  document.getElementById('aiResponseModal').style.display = 'flex';
+}
+
+function closeAiResponse() {
+  document.getElementById('aiResponseModal').style.display = 'none';
+  SOC.showToast(`🔥 Стрик: ${SOC.state.user.streak} дней подряд!`);
+}
+
+function newSession() {
+  SOC.navigate('index.html');
+}
+</script>
+</body>
+</html>

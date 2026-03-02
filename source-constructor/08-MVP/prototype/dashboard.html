@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Source Constructor — Dashboard</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .dashboard-container {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 32px 16px 80px;
+  }
+
+  .welcome-banner {
+    background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+    border-radius: var(--radius-xl);
+    padding: 28px 32px;
+    color: white;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .welcome-text h2 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+
+  .welcome-text p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .streak-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.15);
+    padding: 12px 20px;
+    border-radius: var(--radius-full);
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .sections-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .section-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .section-title-text {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gray-900);
+  }
+
+  /* Mini progress charts */
+  .project-mini {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--gray-100);
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .project-mini:last-child { border-bottom: none; }
+  .project-mini:hover { opacity: 0.8; }
+
+  .project-mini-icon {
+    font-size: 28px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gray-100);
+    border-radius: var(--radius);
+  }
+
+  .project-mini-info {
+    flex: 1;
+  }
+
+  .project-mini-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .project-mini-progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .project-mini-pct {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--blue-600);
+    min-width: 32px;
+  }
+
+  /* Checkin history */
+  .checkin-item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--gray-100);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .checkin-item:last-child { border-bottom: none; }
+
+  .checkin-mood-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .checkin-date {
+    font-size: 12px;
+    color: var(--gray-400);
+    margin-bottom: 4px;
+  }
+
+  .checkin-notes {
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
+
+  .checkin-ai-response {
+    font-size: 13px;
+    color: var(--blue-600);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  /* Calendar heatmap */
+  .heatmap {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-top: 8px;
+  }
+
+  .heatmap-cell {
+    aspect-ratio: 1;
+    border-radius: 3px;
+    background: var(--gray-100);
+    cursor: pointer;
+    transition: transform 0.1s;
+    position: relative;
+  }
+
+  .heatmap-cell:hover { transform: scale(1.2); }
+  .heatmap-cell.level-1 { background: #bfdbfe; }
+  .heatmap-cell.level-2 { background: #93c5fd; }
+  .heatmap-cell.level-3 { background: #3b82f6; }
+  .heatmap-cell.level-4 { background: var(--blue-600); }
+
+  .heatmap-legend {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--gray-400);
+  }
+
+  /* Desires recap */
+  .desire-mini {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .desire-mini:last-child { border-bottom: none; }
+
+  .desire-mini-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  .desire-mini-name {
+    font-size: 14px;
+    font-weight: 700;
+    flex: 1;
+  }
+
+  .desire-mini-conf {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue-600);
+  }
+
+  /* AI Tips */
+  .tip-item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--gray-100);
+    display: flex;
+    gap: 10px;
+  }
+
+  .tip-item:last-child { border-bottom: none; }
+
+  .tip-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .tip-text { font-size: 14px; color: var(--gray-700); line-height: 1.6; }
+  .tip-category {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gray-400);
+    margin-bottom: 2px;
+  }
+
+  @media (max-width: 768px) {
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .sections-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">Source <span>Constructor</span></a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Discovery</a>
+    <a href="projects.html" class="nav-link">Проекты</a>
+    <a href="dashboard.html" class="nav-link active">Дашборд</a>
+  </div>
+</nav>
+
+<div class="dashboard-container">
+
+  <!-- Welcome Banner -->
+  <div class="welcome-banner">
+    <div class="welcome-text">
+      <h2>Привет, Alex! 👋</h2>
+      <p>Ты уже 28 дней в пути. Смотри как далеко продвинулся.</p>
+    </div>
+    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+      <div class="streak-display">
+        🔥 <span id="streakNum">7</span> дней подряд
+      </div>
+      <button class="btn btn-secondary" style="background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.3); color:white;" onclick="SOC.navigate('projects.html')">
+        Сделать check-in →
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats Row -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value">2</div>
+      <div class="stat-label">Активных проекта</div>
+      <div class="stat-change positive">↑ +1 за месяц</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">24%</div>
+      <div class="stat-label">Средний прогресс</div>
+      <div class="stat-change positive">↑ +8% за неделю</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">7</div>
+      <div class="stat-label">Стрик (дней)</div>
+      <div class="stat-change positive">↑ Рекорд!</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3/7</div>
+      <div class="stat-label">Задач на этой неделе</div>
+      <div class="stat-change" style="color:var(--amber-500);">→ В процессе</div>
+    </div>
+  </div>
+
+  <!-- Main Grid -->
+  <div class="sections-grid">
+
+    <!-- Projects Progress -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title-text">Прогресс проектов</div>
+        <a href="projects.html" style="font-size:13px; color:var(--blue-600); text-decoration:none; font-weight:500;">Все проекты →</a>
+      </div>
+      <div id="projectsMini"></div>
+    </div>
+
+    <!-- Activity Heatmap -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title-text">Активность (4 недели)</div>
+        <span class="badge badge-green">28 из 28 дней</span>
+      </div>
+      <div class="heatmap" id="heatmap"></div>
+      <div class="heatmap-legend">
+        <span>Меньше</span>
+        <div style="width:12px;height:12px;border-radius:2px;background:var(--gray-100);"></div>
+        <div style="width:12px;height:12px;border-radius:2px;background:#bfdbfe;"></div>
+        <div style="width:12px;height:12px;border-radius:2px;background:#3b82f6;"></div>
+        <div style="width:12px;height:12px;border-radius:2px;background:var(--blue-600);"></div>
+        <span>Больше</span>
+      </div>
+    </div>
+
+    <!-- True Desires -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title-text">Твои истинные стремления</div>
+        <button class="btn btn-sm btn-ghost" onclick="SOC.navigate('index.html')">Пересдать</button>
+      </div>
+      <div id="desiresMini"></div>
+    </div>
+
+    <!-- AI Tips -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title-text">AI рекомендации</div>
+        <span class="badge badge-blue">Новые</span>
+      </div>
+      <div id="aiTips"></div>
+    </div>
+
+    <!-- Check-in History -->
+    <div class="section-card" style="grid-column: span 2;">
+      <div class="section-header">
+        <div class="section-title-text">История check-ins</div>
+        <span class="badge badge-gray">Последние 3</span>
+      </div>
+      <div id="checkinHistory"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+<script>
+const MOOD_EMOJIS = ['', '😞', '😕', '😐', '🙂', '😄'];
+
+const AI_TIPS = [
+  {
+    icon: '⚡',
+    category: 'Действие',
+    text: 'Ты не делал шагов по проекту "Open-source библиотека" 5 дней. Попробуй правило 2-минут: что можно сделать прямо сейчас?'
+  },
+  {
+    icon: '🎯',
+    category: 'Паттерн',
+    text: 'Замечаю что ты активен по утрам (9-11) и теряешь фокус после обеда. Планируй сложные задачи на первую половину дня.'
+  },
+  {
+    icon: '💬',
+    category: 'Совет',
+    text: 'Ты упомянул страх отправить первое письмо потенциальному клиенту. Вот простой шаблон — напиши ему без ожиданий результата.'
+  }
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderProjectsMini();
+  renderHeatmap();
+  renderDesiresMini();
+  renderAiTips();
+  renderCheckinHistory();
+});
+
+function renderProjectsMini() {
+  const container = document.getElementById('projectsMini');
+  SOC.state.projects.forEach(p => {
+    container.innerHTML += `
+      <div class="project-mini" onclick="SOC.navigate('projects.html')">
+        <div class="project-mini-icon">${p.icon}</div>
+        <div class="project-mini-info">
+          <div class="project-mini-name">${p.name}</div>
+          <div class="project-mini-progress">
+            <div class="progress-bar" style="flex:1">
+              <div class="progress-fill" style="width:${p.progress}%"></div>
+            </div>
+            <div class="project-mini-pct">${p.progress}%</div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function renderHeatmap() {
+  const heatmap = document.getElementById('heatmap');
+  const levels = [4,3,4,4,3,4,4, 3,4,4,2,4,4,3, 4,4,4,3,4,4,4, 2,4,4,4,3,4,0];
+  levels.forEach((level, i) => {
+    const cell = document.createElement('div');
+    cell.className = `heatmap-cell${level > 0 ? ` level-${level}` : ''}`;
+    cell.title = `День ${i + 1}: ${level > 0 ? `${level * 25}% активности` : 'нет активности'}`;
+    heatmap.appendChild(cell);
+  });
+}
+
+function renderDesiresMini() {
+  const container = document.getElementById('desiresMini');
+  SOC.state.trueDesires.forEach(d => {
+    container.innerHTML += `
+      <div class="desire-mini">
+        <div class="desire-mini-icon">${d.icon}</div>
+        <div class="desire-mini-name">${d.name}</div>
+        <div class="desire-mini-conf">${d.confidence}%</div>
+      </div>
+    `;
+  });
+}
+
+function renderAiTips() {
+  const container = document.getElementById('aiTips');
+  AI_TIPS.forEach(tip => {
+    container.innerHTML += `
+      <div class="tip-item">
+        <div class="tip-icon">${tip.icon}</div>
+        <div>
+          <div class="tip-category">${tip.category}</div>
+          <div class="tip-text">${tip.text}</div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function renderCheckinHistory() {
+  const container = document.getElementById('checkinHistory');
+  SOC.state.checkins.forEach(c => {
+    const moodEmoji = MOOD_EMOJIS[c.mood] || '😐';
+    container.innerHTML += `
+      <div class="checkin-item">
+        <div class="checkin-mood-icon">${moodEmoji}</div>
+        <div style="flex:1">
+          <div class="checkin-date">${SOC.formatRelativeDate(c.date)}${c.milestone ? ' · 🎉 Веха' : ''}</div>
+          <div class="checkin-notes">${c.notes}</div>
+          <div class="checkin-ai-response">🤖 ${c.ai_response}</div>
+        </div>
+      </div>
+    `;
+  });
+}
+</script>
+</body>
+</html>

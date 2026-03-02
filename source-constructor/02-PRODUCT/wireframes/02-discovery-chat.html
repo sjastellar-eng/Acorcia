@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOC Wireframe — Discovery Chat</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: monospace; background: #F8FAFC; color: #1E293B; font-size: 14px; height: 100vh; display: flex; flex-direction: column; }
+    .wf-label {
+      position: fixed; top: 12px; right: 12px;
+      background: #1E293B; color: #F8FAFC;
+      padding: 8px 14px; border-radius: 6px; font-size: 12px; z-index: 999;
+    }
+    .annotation { color: #94A3B8; font-size: 11px; font-style: italic; margin: 4px 0 4px 8px; padding-left: 8px; border-left: 2px solid #CBD5E1; }
+    .box { background: #E2E8F0; border: 1px solid #CBD5E1; border-radius: 4px; padding: 6px 12px; display: inline-block; margin: 3px; font-size: 12px; }
+    .box-fill { background: #2563EB; color: white; border: none; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    /* Layout */
+    .shell { display: grid; grid-template-columns: 240px 1fr; height: 100vh; }
+    .sidebar { border-right: 2px dashed #CBD5E1; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+    .main { display: flex; flex-direction: column; }
+    .section { border: 2px dashed #CBD5E1; margin: 6px; border-radius: 6px; padding: 12px; }
+    .section-name { font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; color: #94A3B8; margin-bottom: 8px; }
+    /* Chat */
+    .chat-area { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+    .chat-msg { display: flex; gap: 10px; }
+    .chat-msg.user { flex-direction: row-reverse; }
+    .bubble { max-width: 70%; padding: 10px 14px; border-radius: 4px; font-size: 13px; line-height: 1.5; }
+    .bubble-ai { background: #EEF2FF; border-radius: 0 12px 12px 12px; }
+    .bubble-user { background: #2563EB; color: white; border-radius: 12px 0 12px 12px; }
+    .avatar { width: 32px; height: 32px; border-radius: 50%; background: #CBD5E1; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+    .input-bar { border-top: 2px dashed #CBD5E1; padding: 12px; }
+    .progress-phases { display: flex; gap: 4px; padding: 8px 16px; border-bottom: 1px dashed #CBD5E1; }
+    .phase { flex: 1; text-align: center; font-size: 11px; padding: 6px; border-radius: 4px; background: #F1F5F9; }
+    .phase.active { background: #2563EB; color: white; }
+    .phase.done { background: #ECFDF5; color: #065F46; }
+  </style>
+</head>
+<body>
+<div class="wf-label">Wireframe: Discovery Chat v1.0</div>
+
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="section-name">Sidebar</div>
+    <div class="box" style="background:#1E293B;color:white;text-align:center">● SOC</div>
+
+    <div style="margin-top:8px;font-size:11px;color:#94A3B8;text-transform:uppercase;letter-spacing:0.1em">Session</div>
+    <div class="box" style="background:#EEF2FF;color:#2563EB;width:100%">Discovery Session #1</div>
+    <div class="annotation">Active session — highlighted</div>
+
+    <div style="margin-top:8px;font-size:11px;color:#94A3B8;text-transform:uppercase;letter-spacing:0.1em">My Projects</div>
+    <div class="box" style="width:100%;color:#94A3B8">No projects yet</div>
+
+    <div style="flex:1"></div>
+    <div class="box" style="width:100%;text-align:center;font-size:11px">⚙ Settings</div>
+    <div class="box" style="width:100%;text-align:center;font-size:11px">[ Avatar ] Alex J.</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- SESSION HEADER -->
+    <div class="section" style="margin:6px;flex-shrink:0">
+      <div class="section-name">Session Header</div>
+      <div class="row">
+        <div>
+          <div style="font-weight:bold">Discovery Session #1</div>
+          <div style="font-size:11px;color:#64748B">Started 14 minutes ago</div>
+        </div>
+        <div style="flex:1"></div>
+        <div class="box">Phase: 2 / 5 — Values</div>
+        <div class="box" style="background:#FEF3C7">⏱ 14:32</div>
+        <div class="box">End Session</div>
+      </div>
+      <div class="annotation">Header: session name, elapsed time, current phase, option to end session</div>
+    </div>
+
+    <!-- PHASE PROGRESS -->
+    <div class="section" style="margin:0 6px 0;flex-shrink:0">
+      <div class="section-name">Phase Progress Bar</div>
+      <div class="progress-phases">
+        <div class="phase done">① Context</div>
+        <div class="phase active">② Values</div>
+        <div class="phase">③ Desires</div>
+        <div class="phase">④ Constraints</div>
+        <div class="phase">⑤ Synthesis</div>
+      </div>
+      <div class="annotation">5 phases of Discovery Session. User can see progress but cannot skip ahead.</div>
+    </div>
+
+    <!-- CHAT MESSAGES -->
+    <div class="section" style="margin:6px;flex:1;overflow:hidden">
+      <div class="section-name">Chat Messages (scrollable)</div>
+      <div class="chat-area">
+
+        <div class="chat-msg">
+          <div class="avatar" style="background:#7C3AED;color:white">AI</div>
+          <div>
+            <div class="bubble bubble-ai">Welcome, Alex. I'm your Source Constructor companion. I'm here to help you discover what you truly want to build — not what sounds good, but what genuinely excites you. This session will take about 25–35 minutes. Ready to start?</div>
+            <div style="font-size:11px;color:#94A3B8;margin-top:4px">9:41 AM</div>
+          </div>
+        </div>
+
+        <div class="chat-msg user">
+          <div class="avatar" style="background:#2563EB;color:white">AJ</div>
+          <div>
+            <div class="bubble bubble-user">Yes, let's go. I've been going back and forth on this for months.</div>
+            <div style="font-size:11px;color:#94A3B8;margin-top:4px;text-align:right">9:41 AM</div>
+          </div>
+        </div>
+
+        <div class="chat-msg">
+          <div class="avatar" style="background:#7C3AED;color:white">AI</div>
+          <div>
+            <div class="bubble bubble-ai">I hear you. Let's not rush — going back and forth usually means there's something important underneath the options. Start by telling me: what do you spend time thinking about that has nothing to do with your job?</div>
+            <div style="font-size:11px;color:#94A3B8;margin-top:4px">9:42 AM</div>
+          </div>
+        </div>
+
+        <div class="chat-msg user">
+          <div class="avatar" style="background:#2563EB;color:white">AJ</div>
+          <div>
+            <div class="bubble bubble-user">Mostly how to make complex technical topics easier for people to learn. I'm always explaining things to my non-technical friends and I like it.</div>
+            <div style="font-size:11px;color:#94A3B8;margin-top:4px;text-align:right">9:43 AM</div>
+          </div>
+        </div>
+
+        <div class="chat-msg">
+          <div class="avatar" style="background:#7C3AED;color:white">AI</div>
+          <div>
+            <div class="bubble bubble-ai">You said you "like it" — but I want to push on that. What does it feel like in the moment when someone you've explained something to actually gets it?</div>
+            <div style="font-size:11px;color:#94A3B8;margin-top:4px">9:43 AM</div>
+          </div>
+        </div>
+
+        <!-- Typing indicator -->
+        <div class="chat-msg">
+          <div class="avatar" style="background:#7C3AED;color:white">AI</div>
+          <div class="bubble bubble-ai" style="display:flex;gap:4px;align-items:center">
+            <span style="animation:blink 1s infinite">●</span>
+            <span style="animation:blink 1s 0.3s infinite">●</span>
+            <span style="animation:blink 1s 0.6s infinite">●</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- INPUT BAR -->
+    <div class="input-bar">
+      <div class="section-name">Message Input</div>
+      <div class="row">
+        <div style="flex:1;border:2px dashed #CBD5E1;border-radius:8px;padding:10px 14px;font-size:13px;color:#94A3B8;min-height:44px">
+          Type your response...
+        </div>
+        <div class="box box-fill" style="padding:10px 16px">Send ↑</div>
+      </div>
+      <div class="annotation">Input: multiline textarea. Enter = newline. Cmd/Ctrl+Enter = send. Send button always visible.</div>
+      <div class="row" style="margin-top:8px;gap:6px">
+        <div style="font-size:11px;color:#94A3B8">Quick responses:</div>
+        <div class="box" style="font-size:11px">I'm not sure</div>
+        <div class="box" style="font-size:11px">Tell me more about that</div>
+        <div class="box" style="font-size:11px">Can we go back?</div>
+      </div>
+      <div class="annotation">Quick-response chips for common meta-responses. Reduces friction for uncertain moments.</div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+@keyframes blink {
+  0%, 60%, 100% { opacity: 0.3; }
+  30% { opacity: 1; }
+}
+</style>
+
+</body>
+</html>
