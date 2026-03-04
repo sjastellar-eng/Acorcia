@@ -364,6 +364,19 @@ model Subscription {
   @@map("subscriptions")
 }
 
+// ── WAITLIST ──────────────────────────────────────────────────
+
+model WaitlistEntry {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  source    String?  // 'landing' | 'referral' | etc.
+  locale    String   @default("en")
+  createdAt DateTime @default(now())
+
+  @@map("waitlist_entries")
+}
+
 // ── NOTIFICATIONS ─────────────────────────────────────────────
 
 model NotificationPreference {
