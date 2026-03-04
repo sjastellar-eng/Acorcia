@@ -265,7 +265,6 @@ export default function LandingPage() {
             Join the waitlist and get early access when we launch.
           </p>
           <WaitlistForm
-            locale="en"
             source="landing-cta"
             className="text-left max-w-md mx-auto"
           />

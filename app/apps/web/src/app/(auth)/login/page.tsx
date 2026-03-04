@@ -3,12 +3,15 @@
 import { useState, FormEvent } from 'react'
 import Link from 'next/link'
 import { useAuthProvider, AuthContext } from '../../../hooks/useAuth'
+import { useLocale } from '../../../hooks/useLocale'
 import { Button } from '../../../components/ui/button'
 import { Input } from '../../../components/ui/input'
 import { ApiError } from '../../../lib/api'
+import { LanguageSwitcher } from '../../../components/LanguageSwitcher'
 
 function LoginForm() {
   const { login } = useAuthProvider()
+  const { t } = useLocale()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -25,7 +28,7 @@ function LoginForm() {
       if (err instanceof ApiError) {
         setError(err.message)
       } else {
-        setError('Something went wrong. Please try again.')
+        setError(t.auth.errorShort)
       }
     } finally {
       setIsLoading(false)
@@ -35,20 +38,21 @@ function LoginForm() {
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-8">
+        {/* Logo + lang switcher */}
+        <div className="flex items-center justify-between mb-8">
           <Link href="/" className="inline-flex items-center gap-2">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cobalt-600 to-violet-600 flex items-center justify-center">
               <div className="w-3 h-3 bg-white rounded-full" />
             </div>
             <span className="text-xl font-bold text-slate-900">Source Constructor</span>
           </Link>
+          <LanguageSwitcher />
         </div>
 
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-          <h1 className="text-2xl font-bold text-slate-900 mb-1">Welcome back</h1>
-          <p className="text-slate-500 mb-6 text-sm">Sign in to continue your journey</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-1">{t.auth.loginTitle}</h1>
+          <p className="text-slate-500 mb-6 text-sm">{t.auth.loginSub}</p>
 
           {error && (
             <div className="bg-red-50 border border-red-100 rounded-lg px-4 py-3 mb-4 text-sm text-red-700">
@@ -58,7 +62,7 @@ function LoginForm() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
-              label="Email"
+              label={t.auth.email}
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -67,7 +71,7 @@ function LoginForm() {
               autoComplete="email"
             />
             <Input
-              label="Password"
+              label={t.auth.password}
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -82,15 +86,15 @@ function LoginForm() {
               className="w-full"
               isLoading={isLoading}
             >
-              Sign In
+              {t.auth.signIn}
             </Button>
           </form>
         </div>
 
         <p className="text-center mt-6 text-sm text-slate-500">
-          Don't have an account?{' '}
+          {t.auth.noAccount}{' '}
           <Link href="/register" className="text-cobalt-600 font-medium hover:underline">
-            Start free
+            {t.auth.startFree}
           </Link>
         </p>
       </div>
@@ -98,7 +102,6 @@ function LoginForm() {
   )
 }
 
-// Wrap with auth provider
 export default function LoginPage() {
   const auth = useAuthProvider()
   return (

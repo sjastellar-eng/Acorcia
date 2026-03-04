@@ -3,14 +3,15 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useAuth } from '../../../hooks/useAuth'
+import { useLocale } from '../../../hooks/useLocale'
 import { projects as projectsApi } from '../../../lib/api'
 import { Card } from '../../../components/ui/card'
 import { Badge } from '../../../components/ui/badge'
 import { Button } from '../../../components/ui/button'
-import { formatDate } from '../../../lib/utils'
 
 export default function DashboardPage() {
   const { user, getToken } = useAuth()
+  const { t } = useLocale()
   const [projects, setProjects] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -30,9 +31,15 @@ export default function DashboardPage() {
 
   const hour = new Date().getHours()
   const greeting =
-    hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
+    hour < 12 ? t.dashboard.morning : hour < 18 ? t.dashboard.afternoon : t.dashboard.evening
 
   const activeProject = projects.find((p) => p.status === 'active')
+
+  const activeSubtitle = activeProject
+    ? t.dashboard.activeOn
+        .replace('{day}', String(Math.floor((Date.now() - new Date(activeProject.createdAt).getTime()) / 86400000)))
+        .replace('{name}', activeProject.name)
+    : t.dashboard.letsFind
 
   return (
     <div className="p-8 max-w-5xl">
@@ -41,24 +48,20 @@ export default function DashboardPage() {
         <h1 className="text-3xl font-bold text-slate-900">
           {greeting}{user?.name ? `, ${user.name}` : ''}.
         </h1>
-        <p className="text-slate-500 mt-1">
-          {activeProject
-            ? `You're on Day ${Math.floor((Date.now() - new Date(activeProject.createdAt).getTime()) / 86400000)} of ${activeProject.name}.`
-            : "Let's find out what you're building."}
-        </p>
+        <p className="text-slate-500 mt-1">{activeSubtitle}</p>
       </div>
 
       {/* No projects → CTA */}
       {!isLoading && projects.length === 0 && (
         <div className="bg-gradient-to-br from-cobalt-600 to-violet-600 rounded-2xl p-8 text-center text-white mb-8">
           <div className="text-4xl mb-3">🧭</div>
-          <h2 className="text-2xl font-bold mb-2">Start your first Discovery Session</h2>
+          <h2 className="text-2xl font-bold mb-2">{t.dashboard.startFirst}</h2>
           <p className="text-cobalt-100 mb-6 max-w-md mx-auto">
-            A 25-minute AI conversation that uncovers what you truly want to build — and turns it into a 90-day plan.
+            {t.dashboard.sessionDesc}
           </p>
           <Link href="/session/new">
             <Button variant="secondary" size="lg" className="bg-white text-cobalt-700 hover:bg-cobalt-50">
-              Start Free Session →
+              {t.dashboard.startFreeSession}
             </Button>
           </Link>
         </div>
@@ -67,7 +70,7 @@ export default function DashboardPage() {
       {/* Active project */}
       {activeProject && (
         <div className="mb-8">
-          <h2 className="text-lg font-semibold text-slate-900 mb-4">Active Project</h2>
+          <h2 className="text-lg font-semibold text-slate-900 mb-4">{t.dashboard.activeProject}</h2>
           <Link href={`/project/${activeProject.id}`}>
             <Card variant="interactive" className="p-0 overflow-hidden">
               <div className="h-1 bg-gradient-to-r from-cobalt-600 to-violet-600" />
@@ -78,9 +81,11 @@ export default function DashboardPage() {
                     <p className="text-slate-500 text-sm mt-1">{activeProject.tagline}</p>
                   </div>
                   <div className="flex flex-col items-end gap-2">
-                    <Badge variant="success" dot>Active</Badge>
+                    <Badge variant="success" dot>{t.dashboard.active}</Badge>
                     {activeProject.currentStreak > 0 && (
-                      <span className="text-xs text-amber-600 font-semibold">🔥 {activeProject.currentStreak} day streak</span>
+                      <span className="text-xs text-amber-600 font-semibold">
+                        🔥 {activeProject.currentStreak} {t.dashboard.dayStreak}
+                      </span>
                     )}
                   </div>
                 </div>
@@ -88,7 +93,7 @@ export default function DashboardPage() {
                 {/* Progress */}
                 <div className="mb-4">
                   <div className="flex justify-between text-sm mb-1.5">
-                    <span className="text-slate-500">Progress</span>
+                    <span className="text-slate-500">{t.dashboard.progress}</span>
                     <span className="font-semibold text-cobalt-600">{activeProject.progressPercent}%</span>
                   </div>
                   <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
@@ -99,7 +104,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                {/* Current tasks */}
+                {/* Tasks */}
                 {activeProject.tasks?.slice(0, 3).map((task: any) => (
                   <div key={task.id} className="flex items-center gap-3 py-2 border-t border-slate-50 first:border-t-0">
                     <div className={`w-4 h-4 rounded border-2 flex-shrink-0 ${
@@ -129,24 +134,24 @@ export default function DashboardPage() {
         <Link href="/session/new">
           <Card variant="interactive" className="text-center py-8">
             <div className="text-2xl mb-2">🧭</div>
-            <div className="font-semibold text-slate-900 text-sm">New Session</div>
-            <div className="text-xs text-slate-400 mt-1">Explore or get unstuck</div>
+            <div className="font-semibold text-slate-900 text-sm">{t.dashboard.newSession}</div>
+            <div className="text-xs text-slate-400 mt-1">{t.dashboard.exploreOrUnstuck}</div>
           </Card>
         </Link>
         {activeProject && (
           <Link href={`/project/${activeProject.id}`}>
             <Card variant="interactive" className="text-center py-8">
               <div className="text-2xl mb-2">📋</div>
-              <div className="font-semibold text-slate-900 text-sm">My Project</div>
-              <div className="text-xs text-slate-400 mt-1">View tasks & roadmap</div>
+              <div className="font-semibold text-slate-900 text-sm">{t.dashboard.myProject}</div>
+              <div className="text-xs text-slate-400 mt-1">{t.dashboard.viewTasks}</div>
             </Card>
           </Link>
         )}
         <Link href="/insights">
           <Card variant="interactive" className="text-center py-8">
             <div className="text-2xl mb-2">💡</div>
-            <div className="font-semibold text-slate-900 text-sm">Insights</div>
-            <div className="text-xs text-slate-400 mt-1">Patterns & progress</div>
+            <div className="font-semibold text-slate-900 text-sm">{t.dashboard.insights}</div>
+            <div className="text-xs text-slate-400 mt-1">{t.dashboard.patternsProgress}</div>
           </Card>
         </Link>
       </div>
