@@ -8,9 +8,9 @@ export const LOCALES: Locale[] = ['uk', 'en', 'ru']
 export const DEFAULT_LOCALE: Locale = 'en'
 
 export const LOCALE_LABELS: Record<Locale, string> = {
-  uk: 'Українська',
-  en: 'English',
-  ru: 'Русский',
+  uk: 'Українська (УКР)',
+  en: 'English (ENG)',
+  ru: 'Русский (РУС)',
 }
 
 export const translations = {

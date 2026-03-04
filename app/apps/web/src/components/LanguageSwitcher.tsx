@@ -25,7 +25,7 @@ export function LanguageSwitcher({ variant = 'inline' }: LanguageSwitcherProps) 
   }, [])
 
   const FLAG: Record<Locale, string> = { uk: '🇺🇦', en: '🇬🇧', ru: '🇷🇺' }
-  const SHORT: Record<Locale, string> = { uk: 'УК', en: 'EN', ru: 'РУ' }
+  const SHORT: Record<Locale, string> = { uk: 'УКР', en: 'ENG', ru: 'РУС' }
 
   if (variant === 'sidebar') {
     return (
