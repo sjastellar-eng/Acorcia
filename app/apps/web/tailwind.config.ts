@@ -28,6 +28,9 @@ const config: Config = {
         'fade-in': 'fadeIn 0.2s ease-out',
         'slide-up': 'slideUp 0.3s ease-out',
         'typing': 'typing 1.2s infinite',
+        'float': 'float 6s ease-in-out infinite',
+        'glow-pulse': 'glowPulse 3s ease-in-out infinite',
+        'shimmer': 'shimmer 2.5s linear infinite',
       },
       keyframes: {
         fadeIn: { from: { opacity: '0' }, to: { opacity: '1' } },
@@ -35,6 +38,18 @@ const config: Config = {
         typing: {
           '0%, 60%, 100%': { transform: 'translateY(0)', opacity: '0.4' },
           '30%': { transform: 'translateY(-6px)', opacity: '1' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-12px)' },
+        },
+        glowPulse: {
+          '0%, 100%': { opacity: '0.6' },
+          '50%': { opacity: '1' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% center' },
+          '100%': { backgroundPosition: '200% center' },
         },
       },
     },
