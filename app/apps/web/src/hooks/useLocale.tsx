@@ -8,7 +8,7 @@ const STORAGE_KEY = 'soc_locale'
 interface LocaleContextValue {
   locale: Locale
   setLocale: (locale: Locale) => void
-  t: typeof translations.en
+  t: typeof translations[Locale]
 }
 
 const LocaleContext = createContext<LocaleContextValue>({
