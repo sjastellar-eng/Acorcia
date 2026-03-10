@@ -8,6 +8,7 @@ import { Button } from '../../../components/ui/button'
 import { Input } from '../../../components/ui/input'
 import { ApiError } from '../../../lib/api'
 import { LanguageSwitcher } from '../../../components/LanguageSwitcher'
+import { AcorciaLogo } from '../../../components/AcorciaLogo'
 
 function LoginForm() {
   const { login } = useAuthProvider()
@@ -40,12 +41,7 @@ function LoginForm() {
       <div className="w-full max-w-md">
         {/* Logo + lang switcher */}
         <div className="flex items-center justify-between mb-8">
-          <Link href="/" className="inline-flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cobalt-600 to-violet-600 flex items-center justify-center">
-              <div className="w-3 h-3 bg-white rounded-full" />
-            </div>
-            <span className="text-xl font-bold text-slate-900">Source Constructor</span>
-          </Link>
+          <Link href="/"><AcorciaLogo size={28} dark={false} /></Link>
           <LanguageSwitcher />
         </div>
 
