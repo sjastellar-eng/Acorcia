@@ -11,6 +11,9 @@ COPY app/ .
 # Install dependencies
 RUN pnpm install
 
+# Generate Prisma client for web app (schema in packages/database/prisma)
+RUN pnpm --filter @soc/web exec prisma generate
+
 # Build the web app
 RUN pnpm --filter @soc/web build
 

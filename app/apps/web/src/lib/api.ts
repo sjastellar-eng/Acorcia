@@ -2,7 +2,7 @@
 // API Client — typed wrapper around fetch
 // ─────────────────────────────────────────────────────────────
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001'
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? ''
 
 export class ApiError extends Error {
   constructor(
