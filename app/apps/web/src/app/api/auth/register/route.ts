@@ -44,10 +44,10 @@ export async function POST(req: NextRequest) {
         tokens,
       },
     }, { status: 201 })
-  } catch (err) {
-    console.error('Register error:', err)
+  } catch (err: any) {
+    console.error('Register error:', err?.message ?? err)
     return NextResponse.json(
-      { success: false, error: { code: 'SERVER_ERROR', message: 'Registration failed' } },
+      { success: false, error: { code: 'SERVER_ERROR', message: err?.message ?? 'Registration failed' } },
       { status: 500 }
     )
   }
